@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glossário da Economia – CORECON-PB</title>
+<meta name="description" content="Termos da economia explicados de forma simples, com enciclopédia em níveis, simuladores, trilhas e quiz. Uma iniciativa do CORECON-PB em apoio ao “PB sem dívidas”.">
+<meta name="theme-color" content="#0b5d3b">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b5d3b'/%3E%3Cpath d='M7 22l6-7 5 4 7-9' stroke='%23fff' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/css/estilo.css">
+<script>
+  // Aplica tema e tamanho de letra salvos antes de desenhar a página (evita "piscar")
+  try {
+    var t = localStorage.getItem('ge-tema'); if (t) document.documentElement.dataset.theme = t;
+    var f = localStorage.getItem('ge-fonte'); if (f) document.documentElement.dataset.fonte = f;
+  } catch (e) {}
+</script>
+</head>
+<body>
+<a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-busca" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></symbol>
+    <symbol id="i-livro" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"></path><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5"></path></symbol>
+    <symbol id="i-grafico" viewBox="0 0 24 24"><path d="M3 3v18h18"></path><path d="M7 15l4-5 3 3 5-7"></path></symbol>
+    <symbol id="i-calc" viewBox="0 0 24 24"><rect x="5" y="2.5" width="14" height="19" rx="2"></rect><path d="M8 6.5h8M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01M8.5 18h.01M12 18h.01M15.5 18h.01"></path></symbol>
+    <symbol id="i-trilha" viewBox="0 0 24 24"><circle cx="6" cy="19" r="2.5"></circle><circle cx="18" cy="5" r="2.5"></circle><path d="M8.5 19H15a3.5 3.5 0 0 0 0-7H9a3.5 3.5 0 0 1 0-7h6.5"></path></symbol>
+    <symbol id="i-quiz" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M9.5 9.2a2.6 2.6 0 0 1 5 .9c0 1.7-2.5 2.3-2.5 3.9M12 17.2h.01"></path></symbol>
+    <symbol id="i-az" viewBox="0 0 24 24"><path d="M3 18l4-11 4 11M4.5 14h5M14 7h6l-6 11h6"></path></symbol>
+    <symbol id="i-sol" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></symbol>
+    <symbol id="i-lua" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"></path></symbol>
+    <symbol id="i-fechar" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"></path></symbol>
+    <symbol id="i-seta" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"></path></symbol>
+    <symbol id="i-compartilhar" viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.5"></circle><circle cx="6" cy="12" r="2.5"></circle><circle cx="18" cy="19" r="2.5"></circle><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"></path></symbol>
+    <symbol id="i-carrinho" viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 11h10.6L21 7H6.4"></path><circle cx="9" cy="19.5" r="1.5"></circle><circle cx="17" cy="19.5" r="1.5"></circle></symbol>
+    <symbol id="i-casa" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"></path><path d="M5.5 9.5V20h13V9.5"></path><path d="M10 20v-5h4v5"></path></symbol>
+    <symbol id="i-fabrica" viewBox="0 0 24 24"><path d="M3 21V10l6 4V10l6 4V5h6v16z"></path><path d="M7 17h2M12 17h2M17 17h2"></path></symbol>
+    <symbol id="i-trabalhador" viewBox="0 0 24 24"><circle cx="12" cy="7.5" r="3.5"></circle><path d="M5 21a7 7 0 0 1 14 0"></path><path d="M8.5 6h7"></path></symbol>
+    <symbol id="i-governo" viewBox="0 0 24 24"><path d="M3 9.5L12 4l9 5.5"></path><path d="M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 21h18"></path></symbol>
+    <symbol id="i-banco" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"></rect><path d="M3 10.5h18M7 15h4"></path></symbol>
+    <symbol id="i-investidor" viewBox="0 0 24 24"><path d="M3 17l5-5 4 3 8-8"></path><path d="M15 7h5v5"></path></symbol>
+    <symbol id="i-mercado" viewBox="0 0 24 24"><path d="M6 4v16M6 8h-2v6h2M12 6v14M12 9h-2v4h2M18 3v15M18 6h-2v7h2"></path></symbol>
+    <symbol id="i-brasil" viewBox="0 0 24 24"><path d="M12 3l9 9-9 9-9-9z"></path><circle cx="12" cy="12" r="3.2"></circle></symbol>
+    <symbol id="i-globo" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.8 2.6 4 5.6 4 9s-1.2 6.4-4 9c-2.8-2.6-4-5.6-4-9s1.2-6.4 4-9z"></path></symbol>
+    <symbol id="i-fonte" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"></path><path d="M14 3v5h5M9 13h6M9 17h6"></path></symbol>
+    <symbol id="i-formula" viewBox="0 0 24 24"><path d="M15 4h-3.5a2.5 2.5 0 0 0-2.5 2.3L8 18a2.5 2.5 0 0 1-2.5 2H4M6 10h8M14 13l6 6M20 13l-6 6"></path></symbol>
+    <symbol id="i-rede" viewBox="0 0 24 24"><circle cx="12" cy="12" r="2.5"></circle><circle cx="5" cy="5" r="2"></circle><circle cx="19" cy="5" r="2"></circle><circle cx="5" cy="19" r="2"></circle><circle cx="19" cy="19" r="2"></circle><path d="M6.5 6.5l3.7 3.7M17.5 6.5l-3.7 3.7M6.5 17.5l3.7-3.7M17.5 17.5l-3.7-3.7"></path></symbol>
+    <symbol id="i-escudo" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6z"></path><path d="M8.5 12l2.5 2.5 4.5-5"></path></symbol>
+    <symbol id="i-aviso" viewBox="0 0 24 24"><path d="M12 3.5L2.5 20h19z"></path><path d="M12 10v4.5M12 17.2h.01"></path></symbol>
+    <symbol id="i-letra" viewBox="0 0 24 24"><path d="M4 19l4.5-12L13 19M5.6 15h5.8M15 19v-5.5a2.5 2.5 0 0 1 5 0V19M15 15.5h5"></path></symbol>
+  </defs>
+</svg>
+
+<header class="topo" id="topo">
+  <div class="faixa-indicadores" id="faixa" aria-label="Indicadores de referência"></div>
+  <div class="barra">
+    <a class="marca" href="#/" aria-label="Glossário da Economia — página inicial">
+      <span class="marca-simbolo" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M6 23l6.5-7.5 5 4 8.5-10.5"></path></svg></span>
+      <span class="marca-texto"><strong>Glossário da Economia</strong><small>CORECON-PB · PB sem dívidas</small></span>
+    </a>
+    <nav class="menu-principal" id="menu" aria-label="Seções">
+      <a href="#/enciclopedia" data-secao="enciclopedia"><svg class="ic"><use href="#i-livro"></use></svg>Enciclopédia</a>
+      <a href="#/simuladores" data-secao="simuladores"><svg class="ic"><use href="#i-calc"></use></svg>Simuladores</a>
+      <a href="#/trilhas" data-secao="trilhas"><svg class="ic"><use href="#i-trilha"></use></svg>Trilhas</a>
+      <a href="#/glossario" data-secao="glossario"><svg class="ic"><use href="#i-az"></use></svg>Glossário A–Z</a>
+      <a href="#/quiz" data-secao="quiz"><svg class="ic"><use href="#i-quiz"></use></svg>Quiz</a>
+    </nav>
+    <div class="ferramentas">
+      <button type="button" class="btn-busca" id="abrir-busca" aria-haspopup="dialog" aria-keyshortcuts="/ Control+K">
+        <svg class="ic"><use href="#i-busca"></use></svg><span>Buscar termo</span><kbd>/</kbd>
+      </button>
+      <button type="button" class="btn-icone" id="btn-fonte" aria-label="Tamanho da letra" title="Tamanho da letra"><svg class="ic"><use href="#i-letra"></use></svg></button>
+      <button type="button" class="btn-icone" id="btn-tema" aria-label="Alternar modo claro ou escuro" title="Modo claro/escuro"><svg class="ic"><use href="#i-lua"></use></svg></button>
+      <button type="button" class="btn-icone btn-menu" id="btn-menu" aria-controls="menu" aria-expanded="false" aria-label="Abrir menu"><svg class="ic"><use href="#i-menu"></use></svg></button>
+    </div>
+  </div>
+  <div class="progresso-leitura" id="progresso-leitura" aria-hidden="true"><span></span></div>
+</header>
+
+<main id="conteudo" tabindex="-1">
+  <p class="carregando">Carregando…</p>
+  <noscript><p>Ative o JavaScript para ver o glossário.</p></noscript>
+</main>
+
+<div class="busca-global" id="busca-global" role="dialog" aria-modal="true" aria-label="Buscar na enciclopédia" hidden="">
+  <div class="busca-caixa">
+    <div class="busca-campo">
+      <svg class="ic"><use href="#i-busca"></use></svg>
+      <label for="busca-global-input" class="vh">Buscar um termo</label>
+      <input id="busca-global-input" type="search" placeholder="Busque qualquer termo: juros, IPCA, P/L…" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="busca-global-lista" aria-autocomplete="list">
+      <button type="button" class="btn-icone" id="fechar-busca" aria-label="Fechar busca"><svg class="ic"><use href="#i-fechar"></use></svg></button>
+    </div>
+    <ul id="busca-global-lista" role="listbox" aria-label="Resultados"></ul>
+    <p class="busca-dica"><kbd>↑</kbd><kbd>↓</kbd> navegar · <kbd>Enter</kbd> abrir · <kbd>Esc</kbd> fechar</p>
+  </div>
+</div>
+
+<footer class="rodape">
+  <div class="rodape-grade">
+    <div>
+      <strong>CORECON-PB</strong> – Conselho Regional de Economia da Paraíba.
+      <p>Conteúdo educativo; não substitui orientação profissional. Simulações usam valores hipotéticos e não são recomendação de investimento.</p>
+    </div>
+    <div>
+      <p>Projeto de extensão TPAE II (UFPB) · Equipe 01.</p>
+      <p><a href="#/sobre">Metodologia, fontes e como ler este site</a></p>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="assets/js/app.js"></script>
+
+
+</body></html>
