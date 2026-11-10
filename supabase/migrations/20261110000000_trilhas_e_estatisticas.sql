@@ -1,7 +1,8 @@
 begin;
 
 create schema educacao;
-revoke all on schema educacao from public, anon, authenticated;
+revoke all on schema educacao from public, anon, authenticated, service_role;
+grant usage on schema educacao to authenticated;
 
 create table educacao.conceitos (
   id text primary key,
@@ -48,60 +49,81 @@ alter table educacao.progresso enable row level security;
 alter table educacao.trilhas_abertas enable row level security;
 alter table educacao.equipe enable row level security;
 
--- As tabelas ficam fora da API. Só as funções abaixo recebem permissões
--- para o navegador e sempre identificam a conta pelo token autenticado.
-create function public.ge_estado()
+revoke all on all tables in schema educacao from public, anon, authenticated, service_role;
+
+-- A API expõe apenas os pontos de entrada em public. As funções privilegiadas
+-- e as tabelas permanecem no schema privado educacao.
+create function educacao.usuario_autenticado()
+returns uuid
+language plpgsql
+stable
+set search_path = ''
+as $$
+declare usuario uuid := auth.uid();
+begin
+  if usuario is null or auth.jwt() ->> 'is_anonymous' = 'true' then
+    raise exception 'É necessário entrar com uma conta' using errcode = '42501';
+  end if;
+  return usuario;
+end;
+$$;
+
+create function educacao.ge_estado()
 returns jsonb
 language sql
 stable
 security definer
 set search_path = ''
 as $$
+  with conta as materialized (select educacao.usuario_autenticado() as id)
   select jsonb_build_object(
     'estudados', coalesce(
       (select jsonb_agg(p.conceito_id order by p.conceito_id)
-       from educacao.progresso p where p.usuario_id = (select auth.uid()) and p.estudado),
+       from educacao.progresso p where p.usuario_id = conta.id and p.estudado),
       '[]'::jsonb
     ),
-    'equipe', exists (select 1 from educacao.equipe e where e.usuario_id = (select auth.uid()))
-  );
+    'equipe', exists (select 1 from educacao.equipe e where e.usuario_id = conta.id)
+  )
+  from conta;
 $$;
 
-create function public.ge_marcar_conceito(p_conceito text, p_estudado boolean)
+create function educacao.ge_marcar_conceito(p_conceito text, p_estudado boolean)
 returns void
 language sql
 security definer
 set search_path = ''
 as $$
   insert into educacao.progresso as atual (usuario_id, conceito_id, estudado)
-  values ((select auth.uid()), p_conceito, p_estudado)
+  values ((select educacao.usuario_autenticado()), p_conceito, p_estudado)
   on conflict (usuario_id, conceito_id) do update
     set estudado = excluded.estudado, atualizado_em = now()
     where atual.estudado is distinct from excluded.estudado;
 $$;
 
-create function public.ge_abrir_trilha(p_trilha text)
+create function educacao.ge_abrir_trilha(p_trilha text)
 returns void
 language sql
 security definer
 set search_path = ''
 as $$
   insert into educacao.trilhas_abertas as atual (usuario_id, trilha_id)
-  values ((select auth.uid()), p_trilha)
+  values ((select educacao.usuario_autenticado()), p_trilha)
   on conflict (usuario_id, trilha_id) do update
     set ultimo_acesso_em = greatest(atual.ultimo_acesso_em, excluded.ultimo_acesso_em);
 $$;
 
-create function public.ge_estatisticas()
+create function educacao.ge_estatisticas()
 returns jsonb
 language plpgsql
 stable
 security definer
 set search_path = ''
 as $$
-declare resultado jsonb;
+declare
+  usuario uuid := educacao.usuario_autenticado();
+  resultado jsonb;
 begin
-  if not exists (select 1 from educacao.equipe e where e.usuario_id = (select auth.uid())) then
+  if not exists (select 1 from educacao.equipe e where e.usuario_id = usuario) then
     raise exception 'Acesso restrito à equipe' using errcode = '42501';
   end if;
 
@@ -155,6 +177,26 @@ begin
   return resultado;
 end;
 $$;
+
+create function public.ge_estado()
+returns jsonb language sql stable security invoker set search_path = ''
+as $$ select educacao.ge_estado(); $$;
+
+create function public.ge_marcar_conceito(p_conceito text, p_estudado boolean)
+returns void language sql security invoker set search_path = ''
+as $$ select educacao.ge_marcar_conceito(p_conceito, p_estudado); $$;
+
+create function public.ge_abrir_trilha(p_trilha text)
+returns void language sql security invoker set search_path = ''
+as $$ select educacao.ge_abrir_trilha(p_trilha); $$;
+
+create function public.ge_estatisticas()
+returns jsonb language sql stable security invoker set search_path = ''
+as $$ select educacao.ge_estatisticas(); $$;
+
+revoke all on all functions in schema educacao from public, anon, authenticated, service_role;
+grant execute on function educacao.ge_estado(), educacao.ge_marcar_conceito(text, boolean),
+  educacao.ge_abrir_trilha(text), educacao.ge_estatisticas() to authenticated;
 
 revoke all on function public.ge_estado(), public.ge_marcar_conceito(text, boolean),
   public.ge_abrir_trilha(text), public.ge_estatisticas() from public, anon, authenticated, service_role;
