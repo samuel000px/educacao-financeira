@@ -1,5 +1,5 @@
 // Simuladores e calculadoras. Todos os valores iniciais são EXEMPLOS HIPOTÉTICOS editáveis.
-import { h, s, icone, brl, num, pct, compacto, aleatorio, normal } from './util.js';
+import { h, s, icone, brl, num, pct, compacto, aleatorio, normal, debounce } from './util.js';
 import { grafico, barras } from './graficos.js';
 
 const C1 = 'var(--s1)', C2 = 'var(--s2)', C3 = 'var(--s3)', C4 = 'var(--s4)';
@@ -189,10 +189,11 @@ export const SIMULADORES = [
         return { selic, tesouro, cdb, taxaEmp, parcela, total: parcela * v.meses, jurosPagos: parcela * v.meses - v.divida, realLiq };
       };
       const A = cen(v.selicA), B = cen(v.selicB);
-      const linha = (rot, f, fmt) => h('tr', null, h('td', null, rot), h('td', null, fmt(f(A))), h('td', null, fmt(f(B))), h('td', null, fmt(f(B) - f(A))));
-      const tabela = h('table', { class: 'tabela-cenarios' },
-        h('thead', null, h('tr', null, h('th', null, ''), h('th', null, `A · ${pct(v.selicA)}`), h('th', null, `B · ${pct(v.selicB)}`), h('th', null, 'B − A'))),
-        h('tbody', null,
+      // papéis ARIA explícitos: no celular a tabela muda de formato por CSS e não pode perder a semântica
+      const linha = (rot, f, fmt) => h('tr', { role: 'row' }, h('th', { scope: 'row', role: 'rowheader' }, rot), h('td', { role: 'cell' }, fmt(f(A))), h('td', { role: 'cell' }, fmt(f(B))), h('td', { role: 'cell' }, fmt(f(B) - f(A))));
+      const tabela = h('table', { class: 'tabela-cenarios', role: 'table', 'aria-label': 'Comparação entre os cenários A e B' },
+        h('thead', { role: 'rowgroup' }, h('tr', { role: 'row' }, h('td', { role: 'cell' }, ''), h('th', { scope: 'col', role: 'columnheader' }, `A · ${pct(v.selicA)}`), h('th', { scope: 'col', role: 'columnheader' }, `B · ${pct(v.selicB)}`), h('th', { scope: 'col', role: 'columnheader' }, 'B − A'))),
+        h('tbody', { role: 'rowgroup' },
           linha('Rendimento líquido no Tesouro Selic (1 ano)', c => c.tesouro, brl),
           linha(`Rendimento líquido no CDB a ${v.cdb}% do CDI`, c => c.cdb, brl),
           linha('Juro real líquido da renda fixa', c => 100 * c.realLiq, x => pct(x)),
@@ -215,7 +216,7 @@ export const SIMULADORES = [
         h('h4', { class: 'subtema-titulo' }, d === 0 ? 'Os dois cenários têm a mesma Selic' : `Efeitos esperados de uma Selic ${d > 0 ? 'mais alta' : 'mais baixa'} no cenário B`),
         h('div', { class: 'canais' }, canais.map(([nome, ic, sinal, txtAlta, txtBaixa]) => {
           const [sim, cls] = seta(d === 0 ? 0 : sinal);
-          return h('div', { class: 'canal' }, h('b', null, icone(ic), nome, h('span', { class: 'direcao', 'aria-label': cls === 'sobe' ? 'tende a subir' : cls === 'desce' ? 'tende a cair' : 'sem mudança' }, sim)),
+          return h('div', { class: 'canal' }, h('b', null, icone(ic), nome, h('span', { class: 'direcao ' + cls }, h('span', { 'aria-hidden': 'true' }, sim), h('span', { class: 'vh' }, cls === 'sobe' ? ' (tende a subir)' : cls === 'desce' ? ' (tende a cair)' : ' (sem mudança)'))),
             h('p', null, d === 0 ? 'Sem diferença entre os cenários.' : d > 0 ? txtAlta : txtBaixa));
         })));
       // curva: rendimento x juros pagos conforme a Selic
@@ -227,7 +228,7 @@ export const SIMULADORES = [
           { rot: 'Diferença na parcela do financiamento (B − A)', val: brl(B.parcela - A.parcela) },
           { rot: 'Juro real líquido no cenário B', val: pct(100 * B.realLiq), cls: B.realLiq < 0 ? 'neg' : 'pos' },
         ],
-        extraAntes: tabela,
+        extraAntes: h('div', { class: 'rolagem-x' }, tabela),
         grafico: { x: xs, formatoX: (x) => num(x, 1) + '%', nomeX: 'Selic', rotuloX: 'Selic (% a.a.)', formatoY: compacto, titulo: 'Rendimento e custo do crédito conforme a Selic',
           series: [
             { nome: `Rendimento líquido de ${brl(v.valor, true)} em 1 ano`, valores: cs.map(c => c.tesouro), cor: C1, formatoDica: brl },
@@ -390,7 +391,7 @@ export const SIMULADORES = [
           { rot: 'Taxa equivalente ao ano', val: pct(100 * (Math.pow(1 + i, 12) - 1), 1), destaque: true, cls: 'neg' },
           { rot: `Plano 1: pagando ${brl(v.p1)}/mês`, val: desc(A), cls: A.quita ? '' : 'neg' },
           { rot: `Plano 2: pagando ${brl(v.p2)}/mês`, val: desc(B), cls: B.quita ? '' : 'neg' },
-          { rot: 'Economia do plano 2 em juros', val: A.quita && B.quita ? brl(A.pago - B.pago) : '—', cls: 'pos' },
+          { rot: 'Economia do plano 2 em juros', val: A.quita && B.quita ? brl(A.pago - B.pago) : '—', cls: A.quita && B.quita ? (A.pago - B.pago >= 0 ? 'pos' : 'neg') : '' },
         ],
         grafico: { x, formatoX: mesX, nomeX: 'Mês', formatoY: compacto, titulo: 'Saldo devedor ao longo do tempo',
           series: [
@@ -416,16 +417,19 @@ export const SIMULADORES = [
     ],
     premissas: ['Modelo linear e didático de um mercado hipotético: demanda Qd = 100 + desloc. − b·P; oferta Qs = 10 + desloc. + d·P.', 'Equilíbrio onde Qd = Qs: P* = (90 + desloc.demanda − desloc.oferta) ÷ (b + d).'],
     calcular(v) {
-      const eq = (dd, ds) => { const P = Math.max(0, (90 + dd - ds) / (v.b + v.d)); return { P, Q: 10 + ds + v.d * P }; };
+      // com preço zero ainda pode sobrar oferta: vende-se o menor entre o ofertado e o demandado
+      const eq = (dd, ds) => { const P = Math.max(0, (90 + dd - ds) / (v.b + v.d)); return { P, Q: Math.max(0, Math.min(10 + ds + v.d * P, 100 + dd - v.b * P)) }; };
       const E0 = eq(0, 0), E1 = eq(v.dd, v.ds);
-      const W = 560, H = 360, m = { l: 48, r: 16, t: 14, b: 40 }, Pm = 70, Qm = 170;
+      const maiorP = Math.max(E0.P, E1.P);
+      const passoP = maiorP <= 56 ? 10 : maiorP <= 130 ? 20 : 50;
+      const W = 560, H = 360, m = { l: 52, r: 16, t: 26, b: 40 }, Pm = Math.max(70, Math.ceil((maiorP * 1.2) / passoP) * passoP), Qm = 170;
       const X = (q) => m.l + (q / Qm) * (W - m.l - m.r), Y = (p) => H - m.b - (p / Pm) * (H - m.t - m.b);
-      const reta = (f, cls, cor, tr) => { const pts = []; for (let p = 0; p <= Pm; p += 1) { const q = f(p); if (q >= 0 && q <= Qm) pts.push(`${X(q).toFixed(1)},${Y(p).toFixed(1)}`); } return s('polyline', { points: pts.join(' '), fill: 'none', style: `stroke:${cor};stroke-width:${tr ? 1.5 : 2.5}`, 'stroke-dasharray': tr ? '5 5' : null, opacity: tr ? .6 : 1 }); };
+      const reta = (f, cls, cor, tr) => { const pts = []; for (let k = 0; k <= 140; k++) { const p = (Pm * k) / 140, q = f(p); if (q >= 0 && q <= Qm) pts.push(`${X(q).toFixed(1)},${Y(p).toFixed(1)}`); } return s('polyline', { points: pts.join(' '), fill: 'none', style: `stroke:${cor};stroke-width:${tr ? 1.5 : 2.5}`, 'stroke-dasharray': tr ? '5 5' : null, opacity: tr ? .6 : 1 }); };
       const g = s('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': `Gráfico de oferta e demanda. Equilíbrio inicial: preço ${num(E0.P, 1)}, quantidade ${num(E0.Q, 0)}. Novo equilíbrio: preço ${num(E1.P, 1)}, quantidade ${num(E1.Q, 0)}.` });
       const eixo = s('g', { class: 'eixo' });
-      for (let p = 0; p <= Pm; p += 10) { eixo.append(s('line', { class: 'grade-linha', x1: m.l, x2: W - m.r, y1: Y(p), y2: Y(p) }), s('text', { x: m.l - 8, y: Y(p) + 4, 'text-anchor': 'end' }, 'R$ ' + p)); }
+      for (let p = 0; p <= Pm; p += passoP) { eixo.append(s('line', { class: 'grade-linha', x1: m.l, x2: W - m.r, y1: Y(p), y2: Y(p) }), s('text', { x: m.l - 8, y: Y(p) + 4, 'text-anchor': 'end' }, 'R$ ' + p)); }
       for (let q = 0; q <= Qm; q += 30) eixo.append(s('text', { x: X(q), y: H - m.b + 18, 'text-anchor': 'middle' }, q));
-      eixo.append(s('text', { x: W - m.r, y: H - 4, 'text-anchor': 'end' }, 'Quantidade'), s('text', { x: 4, y: 10 }, 'Preço'));
+      eixo.append(s('text', { x: W - m.r, y: H - 4, 'text-anchor': 'end' }, 'Quantidade'), s('text', { x: 4, y: 11 }, 'Preço'));
       g.append(eixo);
       const mudou = v.dd !== 0 || v.ds !== 0;
       if (mudou) { g.append(reta(p => 100 - v.b * p, '', C1, true), reta(p => 10 + v.d * p, '', C2, true)); }
@@ -433,8 +437,11 @@ export const SIMULADORES = [
       const guia = (E, cor) => [s('line', { x1: m.l, x2: X(E.Q), y1: Y(E.P), y2: Y(E.P), class: 'mira', style: `stroke:${cor}` }), s('line', { x1: X(E.Q), x2: X(E.Q), y1: Y(E.P), y2: H - m.b, class: 'mira', style: `stroke:${cor}` })];
       if (mudou) g.append(...guia(E0, 'var(--tinta-3)'), s('circle', { cx: X(E0.Q), cy: Y(E0.P), r: 5, style: 'fill:var(--superficie);stroke:var(--tinta-3);stroke-width:2' }));
       g.append(...guia(E1, 'var(--tinta)'), s('circle', { cx: X(E1.Q), cy: Y(E1.P), r: 7, style: 'fill:var(--marca);stroke:var(--superficie);stroke-width:2' }));
-      g.append(s('text', { x: X(Math.min(Qm - 5, 100 + v.dd - v.b * 4)), y: Y(4) - 6, style: 'fill:var(--s1);font:700 13px var(--sans)', 'text-anchor': 'end' }, 'Demanda'));
-      g.append(s('text', { x: X(Math.min(Qm - 5, 10 + v.ds + v.d * 62)), y: Y(62) - 6, style: 'fill:var(--s2);font:700 13px var(--sans)', 'text-anchor': 'end' }, 'Oferta'));
+      // rótulos das curvas: demanda perto do eixo das quantidades, oferta no alto, sempre dentro do gráfico
+      const pD = Pm * 0.06, pS = Math.min(Pm * 0.9, Math.max(Pm * 0.3, (Qm - 12 - 10 - v.ds) / v.d));
+      const dentro = (q) => Math.max(40, Math.min(Qm - 5, q));
+      g.append(s('text', { x: X(dentro(100 + v.dd - v.b * pD)), y: Y(pD) - 6, style: 'fill:var(--s1);font:700 13px var(--sans)', 'text-anchor': 'end' }, 'Demanda'));
+      g.append(s('text', { x: X(dentro(10 + v.ds + v.d * pS)), y: Y(pS) - 6, style: 'fill:var(--s2);font:700 13px var(--sans)', 'text-anchor': 'end' }, 'Oferta'));
       const dP = E1.P - E0.P, dQ = E1.Q - E0.Q;
       const sentido = (x) => (Math.abs(x) < 0.05 ? 'fica igual' : x > 0 ? 'sobe' : 'cai');
       return {
@@ -500,33 +507,47 @@ export function montarSimulador(def, alvo, { nivelTitulo = 'h2' } = {}) {
     h('div', null, h(nivelTitulo, { id: uid + '-t' }, def.titulo), h('p', null, def.resumo))));
   const abas = def.abas || [def];
   let abaAtual = 0;
-  const corpoAba = h('div');
+  const corpoAba = h('div', { id: uid + '-p' });
+  // resumo falado para leitores de tela: só o resultado principal, depois que a pessoa para de mexer
+  const anuncio = h('p', { class: 'vh', role: 'status' });
+  const anunciar = debounce((txt) => { anuncio.textContent = txt; }, 700);
   if (abas.length > 1) {
     const lista = h('div', { class: 'sim-abas', role: 'tablist', 'aria-label': 'Modos do simulador' });
+    const trocar = (i, focar) => {
+      abaAtual = i;
+      [...lista.children].forEach((b, k) => { b.setAttribute('aria-selected', k === i ? 'true' : 'false'); b.tabIndex = k === i ? 0 : -1; });
+      render(); if (focar) lista.children[i].focus();
+    };
     abas.forEach((a, i) => lista.append(h('button', { type: 'button', role: 'tab', id: `${uid}-a${i}`, 'aria-selected': i === 0 ? 'true' : 'false', 'aria-controls': uid + '-p', tabindex: i === 0 ? '0' : '-1',
-      onclick: () => trocar(i), onkeydown: (e) => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { const n = (i + (e.key === 'ArrowRight' ? 1 : -1) + abas.length) % abas.length; trocar(n); lista.children[n].focus(); } } }, a.nome)));
+      onclick: () => trocar(i),
+      onkeydown: (e) => {
+        const n = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: abas.length - 1 }[e.key];
+        if (n !== undefined) { e.preventDefault(); trocar((n + abas.length) % abas.length, true); }
+      } }, a.nome)));
     caixa.append(lista);
-    var trocar = (i) => { abaAtual = i; [...lista.children].forEach((b, k) => { b.setAttribute('aria-selected', k === i ? 'true' : 'false'); b.tabIndex = k === i ? 0 : -1; }); render(); };
+    corpoAba.setAttribute('role', 'tabpanel');
   }
-  corpoAba.id = uid + '-p';
-  if (abas.length > 1) { corpoAba.setAttribute('role', 'tabpanel'); }
-  caixa.append(corpoAba);
+  caixa.append(corpoAba, anuncio);
   alvo.append(caixa);
 
-  const valores = abas.map(a => Object.fromEntries((a.campos || []).map(c => [c.id, c.valor])));
-  function render() {
+  const iniciais = () => abas.map(a => Object.fromEntries((a.campos || []).map(c => [c.id, c.valor])));
+  const valores = iniciais();
+  function render(focar) {
     const a = abas[abaAtual], val = valores[abaAtual];
     if (abas.length > 1) corpoAba.setAttribute('aria-labelledby', `${uid}-a${abaAtual}`);
-    const entradas = h('div', { class: 'sim-entradas' });
-    const saidas = h('div', { class: 'sim-saidas', 'aria-live': 'polite' });
-    const compacto = a.campos.every(c => c.compacto);
-    if (compacto) entradas.style.gridTemplateColumns = 'repeat(auto-fill, minmax(6.5rem, 1fr))';
-    for (const c of a.campos) entradas.append(campo(c, val, () => atualizar(), uid));
-    if (def.cenarios) entradas.append(h('div', null, h('label', null, 'Cenários prontos'), h('div', { class: 'cenarios-botoes' }, def.cenarios.map(([nome, vs]) =>
-      h('button', { type: 'button', class: 'chip', onclick: () => { Object.assign(val, vs); render(); } }, nome)))));
+    const entradas = h('div', { class: 'sim-entradas' + (a.campos.every(c => c.compacto) ? ' compactas' : '') });
+    const saidas = h('div', { class: 'sim-saidas' });
+    const atualizar = () => desenharSaida(a, val, saidas, anunciar);
+    for (const c of a.campos) entradas.append(campo(c, val, atualizar, uid));
+    const restaurar = h('button', { type: 'button', class: 'botao secundario pequeno', onclick: () => { Object.assign(val, iniciais()[abaAtual]); render('.restaurar button'); } }, 'Restaurar valores do exemplo');
+    const cenarios = def.cenarios ? h('div', { class: 'campo-sim linha-inteira' }, h('span', { class: 'rotulo-campo', id: uid + '-cen' }, 'Cenários prontos'),
+      h('div', { class: 'cenarios-botoes', role: 'group', 'aria-labelledby': uid + '-cen' }, def.cenarios.map(([nome, vs], k) =>
+        h('button', { type: 'button', class: 'chip', onclick: () => { Object.assign(val, vs); render(`.cenarios-botoes button:nth-child(${k + 1})`); } }, nome)))) : null;
+    if (cenarios) entradas.append(cenarios);
+    entradas.append(h('div', { class: 'restaurar linha-inteira' }, restaurar));
     corpoAba.replaceChildren(h('div', { class: 'sim-corpo' }, entradas, saidas));
-    const atualizar = () => desenharSaida(a, val, saidas);
     atualizar();
+    if (focar) corpoAba.querySelector(focar)?.focus(); // devolve o foco ao botão usado (a área foi redesenhada)
   }
   render();
   return caixa;
@@ -534,23 +555,31 @@ export function montarSimulador(def, alvo, { nivelTitulo = 'h2' } = {}) {
 
 function campo(c, val, aoMudar, uid) {
   const id = `${uid}-${c.id}`;
+  const ajuda = c.ajuda ? h('small', { id: id + '-ajuda' }, c.ajuda) : null;
+  const descrito = ajuda ? id + '-ajuda' : null;
   if (c.tipo === 'select') {
-    const sel = h('select', { id }, c.opcoes.map(([v, t]) => h('option', { value: v, selected: String(val[c.id]) === v ? true : null }, t)));
+    const sel = h('select', { id, 'aria-describedby': descrito }, c.opcoes.map(([v, t]) => h('option', { value: v, selected: String(val[c.id]) === v ? true : null }, t)));
     sel.addEventListener('change', () => { val[c.id] = sel.value; aoMudar(); });
-    return h('div', { class: 'campo-sim' }, h('label', { for: id }, c.rotulo), sel, c.ajuda ? h('small', null, c.ajuda) : null);
+    return h('div', { class: 'campo-sim' }, h('label', { for: id }, c.rotulo), sel, ajuda);
   }
   if (c.tipo === 'check') {
     const cb = h('input', { type: 'checkbox', id, checked: val[c.id] ? true : null });
     cb.addEventListener('change', () => { val[c.id] = cb.checked; aoMudar(); });
-    return h('div', { class: 'campo-sim' }, h('label', { for: id, style: 'justify-content:flex-start;gap:.5rem;font-weight:500' }, cb, c.rotulo));
+    return h('div', { class: 'campo-sim' }, h('label', { for: id, class: 'rotulo-caixa' }, cb, c.rotulo));
   }
-  const numero = h('input', { type: 'number', id, min: c.min, max: c.max, step: c.passo, value: val[c.id], inputmode: 'decimal' });
+  // Prazos (anos, meses) são sempre inteiros; os demais aceitam valores além do controle deslizante
+  // (até 10 vezes o máximo), para testar cenários extremos sem quebrar as contas.
+  const prazo = /^(anos|meses)$/.test(c.unidade || '');
+  const teto = prazo ? c.max : c.max * 10, piso = c.compacto ? c.min * 10 : c.min;
+  const ajustar = (x) => { x = Math.max(piso, Math.min(teto, x)); return prazo ? Math.round(x) : x; };
+  const numero = h('input', { type: 'number', id, min: piso, max: teto, step: c.passo, value: val[c.id], inputmode: c.min < 0 ? null : 'decimal', 'aria-describedby': descrito });
+  const lerNumero = () => parseFloat(String(numero.value).replace(',', '.'));
   if (c.compacto) {
-    numero.style.width = '100%';
-    numero.addEventListener('input', () => { const x = parseFloat(numero.value); if (Number.isFinite(x)) { val[c.id] = x; aoMudar(); } });
-    return h('div', { class: 'campo-sim' }, h('label', { for: id }, c.rotulo), numero);
+    numero.addEventListener('input', () => { const x = lerNumero(); if (Number.isFinite(x)) { val[c.id] = ajustar(x); aoMudar(); } });
+    numero.addEventListener('change', () => { numero.value = val[c.id]; });
+    return h('div', { class: 'campo-sim' }, h('label', { for: id }, c.rotulo, c.unidade ? h('span', { class: 'vh' }, ` (${c.unidade})`) : null), numero);
   }
-  const faixa = h('input', { type: 'range', min: c.min, max: c.max, step: c.passo, value: val[c.id], 'aria-label': c.rotulo + (c.unidade ? ` (${c.unidade})` : '') });
+  const faixa = h('input', { type: 'range', min: c.min, max: c.max, step: c.passo, value: val[c.id], 'aria-label': c.rotulo + (c.unidade ? ` (${c.unidade})` : '') + ': controle deslizante', tabindex: '-1' });
   const definir = (x, origem) => {
     if (!Number.isFinite(x)) return;
     val[c.id] = x;
@@ -559,16 +588,19 @@ function campo(c, val, aoMudar, uid) {
     aoMudar();
   };
   faixa.addEventListener('input', () => definir(parseFloat(faixa.value), faixa));
-  numero.addEventListener('input', () => { const x = parseFloat(numero.value); if (Number.isFinite(x)) definir(Math.max(c.min, Math.min(c.max * 10, x)), numero); });
+  numero.addEventListener('input', () => { const x = lerNumero(); if (Number.isFinite(x)) definir(ajustar(x), numero); });
+  // ao sair do campo, mostra o valor realmente usado na conta (dentro dos limites)
+  numero.addEventListener('change', () => { numero.value = val[c.id]; });
   return h('div', { class: 'campo-sim' },
     h('label', { for: id }, c.rotulo),
     h('div', { class: 'linha-entrada' }, numero, h('span', { class: 'unidade' }, c.unidade || '')),
-    faixa, c.ajuda ? h('small', null, c.ajuda) : null);
+    faixa, ajuda);
 }
 
-function desenharSaida(a, val, saidas) {
+function desenharSaida(a, val, saidas, anunciar) {
   let r;
   try { r = a.calcular({ ...val }); } catch (e) { console.error(e); saidas.replaceChildren(h('p', null, 'Não foi possível calcular com esses valores.')); return; }
+  const tabelaAberta = !!saidas.querySelector('details.tabela-dados[open]'); // não fecha a tabela a cada ajuste
   const filhos = [];
   if (r.metricas) filhos.push(h('div', { class: 'metricas' }, r.metricas.map(m => h('div', { class: 'metrica' + (m.destaque ? ' destaque' : '') }, h('small', null, m.rot), h('b', { class: m.cls || '' }, m.val)))));
   if (r.extraAntes) filhos.push(r.extraAntes);
@@ -578,5 +610,7 @@ function desenharSaida(a, val, saidas) {
   if (r.extra) filhos.push(r.extra);
   if (a.premissas) filhos.push(h('div', { class: 'premissas' }, icone('aviso'), h('div', null, h('p', null, h('b', null, 'Premissas: ')), a.premissas.map(p => h('p', null, p)))));
   saidas.replaceChildren(...filhos);
-  if (r.grafico) grafico(g, r.grafico);
+  if (r.grafico) grafico(g, { ...r.grafico, tabelaAberta });
+  const principal = r.metricas?.find(m => m.destaque) || r.metricas?.[0];
+  if (principal && anunciar) anunciar(`${principal.rot}: ${principal.val}`);
 }

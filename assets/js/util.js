@@ -1,7 +1,7 @@
 // Funções utilitárias compartilhadas. As funções norm, slug, inicial e escrever
 // vêm do site original e mantêm o mesmo comportamento (busca sem acentos e realce).
 
-export function norm(s) { return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase(); }
+export function norm(s) { return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase(); }
 export function slug(s) { return norm(s).replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
 export function inicial(s) { const c = norm(s).charAt(0).toUpperCase(); return /[A-Z]/.test(c) ? c : '#'; }
 
@@ -105,6 +105,13 @@ export function paragrafos(texto, q) {
 
 export function debounce(fn, ms = 120) { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; }
 
+// Troca o endereço sem criar entrada no histórico e sem perder o estado guardado nela
+// (o estado guarda a posição da entrada, usada para restaurar a rolagem ao voltar).
+export function trocarUrl(url) { try { history.replaceState(history.state, '', url); } catch (e) { /* endereço não pôde ser trocado */ } }
+
+// "1 nível", "3 níveis"
+export const plural = (n, um, varios) => `${n} ${n === 1 ? um : varios}`;
+
 // Gerador pseudoaleatório com semente (simulações reproduzíveis)
 export function aleatorio(semente) {
   let a = semente >>> 0;
@@ -112,9 +119,9 @@ export function aleatorio(semente) {
 }
 export function normal(rng) { let u = 0, v = 0; while (u === 0) u = rng(); while (v === 0) v = rng(); return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v); }
 
-export function revelarAoRolar(raiz) {
+export function revelarAoRolar(raiz, animar = true) {
   const itens = raiz.querySelectorAll('.revelar');
-  if (!('IntersectionObserver' in window)) { itens.forEach(i => i.classList.add('visto')); return; }
+  if (!animar || !('IntersectionObserver' in window)) { itens.forEach(i => i.classList.add('visto')); return; }
   const io = new IntersectionObserver((ents) => ents.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visto'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -5% 0px' });
   itens.forEach(i => io.observe(i));
 }

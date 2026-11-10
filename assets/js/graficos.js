@@ -16,17 +16,20 @@ function escalaBonita(min, max, n = 5) {
 export function grafico(alvo, cfg) {
   const caixa = h('div', { class: 'grafico' });
   alvo.replaceChildren(caixa);
-  const desenhar = () => desenharGrafico(caixa, cfg);
-  desenhar();
+  const desenhar = (aberta) => desenharGrafico(caixa, cfg, aberta);
+  desenhar(!!cfg.tabelaAberta);
   if ('ResizeObserver' in window) {
     let w = caixa.clientWidth;
-    const ro = new ResizeObserver(() => { if (Math.abs(caixa.clientWidth - w) > 8) { w = caixa.clientWidth; desenhar(); } });
+    const ro = new ResizeObserver(() => {
+      if (!caixa.isConnected) { ro.disconnect(); return; } // gráfico substituído: para de observar
+      if (Math.abs(caixa.clientWidth - w) > 8) { w = caixa.clientWidth; desenhar(!!caixa.querySelector('details[open]')); }
+    });
     ro.observe(caixa);
   }
   return caixa;
 }
 
-function desenharGrafico(caixa, cfg) {
+function desenharGrafico(caixa, cfg, tabelaAberta) {
   const { x, series, formatoY = (v) => num(v, 0), formatoX = (v) => v, faixa, titulo, rotuloX = '', zeroNoEixo = true } = cfg;
   const W = Math.max(280, caixa.clientWidth || 600);
   const H = cfg.altura || Math.round(Math.min(340, Math.max(220, W * 0.5)));
@@ -42,6 +45,7 @@ function desenharGrafico(caixa, cfg) {
   let todos = pilhas.flatMap(p => p.fim);
   if (faixa) todos = todos.concat(faixa.inferior, faixa.superior);
   todos = todos.filter(Number.isFinite);
+  if (!todos.length) { caixa.replaceChildren(h('p', { class: 'fonte' }, 'Não há valores para desenhar o gráfico com esses números.')); return; }
   let vmin = Math.min(...todos), vmax = Math.max(...todos);
   if (zeroNoEixo) vmin = Math.min(0, vmin);
   const esc = escalaBonita(vmin, vmax);
@@ -52,7 +56,7 @@ function desenharGrafico(caixa, cfg) {
   const X = (i) => m.l + (x.length === 1 ? iw / 2 : (i / (x.length - 1)) * iw);
   const Y = (v) => m.t + ih - ((v - esc.ini) / (esc.fim - esc.ini)) * ih;
 
-  const svg = s('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': titulo || 'Gráfico' });
+  const svg = s('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': (titulo || 'Gráfico') + '. Os mesmos dados estão na tabela logo abaixo.' });
   const gEixo = s('g', { class: 'eixo' });
   for (const v of esc.marcas) {
     gEixo.append(s('line', { class: v === 0 ? 'grade-linha linha-zero' : 'grade-linha', x1: m.l, x2: W - m.r, y1: Y(v), y2: Y(v) }));
@@ -101,15 +105,18 @@ function desenharGrafico(caixa, cfg) {
     dica.replaceChildren(h('b', null, formatoX(x[i]) + (cfg.sufixoX || '')));
     series.forEach(se => dica.append(h('br'), h('i', { style: `background:${se.cor}` }), `${se.nome}: ${(se.formatoDica || formatoY)(se.valores[i])}`));
     if (faixa) dica.append(h('br'), `${faixa.nome}: ${formatoY(faixa.inferior[i])} a ${formatoY(faixa.superior[i])}`);
-    const left = (X(i) / W) * r.width;
-    dica.style.left = Math.min(Math.max(left, 80), r.width - 80) + 'px';
-    dica.style.top = ((Y(Math.max(...pilhas.map(p => p.fim[i]))) / H) * r.height) + 'px';
+    // a dica fica dentro do gráfico: centralizada no ponto, sem passar das bordas nem do topo
+    const left = (X(i) / W) * r.width, meia = dica.offsetWidth / 2;
+    dica.style.left = Math.min(Math.max(left, meia), Math.max(meia, r.width - meia)) + 'px';
+    const topo = (r.top - caixa.getBoundingClientRect().top) + (Y(Math.max(...pilhas.map(p => p.fim[i]).filter(Number.isFinite))) / H) * r.height;
+    dica.style.top = Math.max(topo, dica.offsetHeight + 12) + 'px';
     dica.classList.add('visivel');
   };
   const esconder = () => { mira.setAttribute('visibility', 'hidden'); pontos.forEach(p => p.setAttribute('visibility', 'hidden')); dica.classList.remove('visivel'); };
   area.addEventListener('pointermove', mostrar);
   area.addEventListener('pointerdown', mostrar);
   area.addEventListener('pointerleave', esconder);
+  area.addEventListener('pointercancel', esconder);
 
   // legenda (2+ séries)
   const itensLegenda = series.map(se => h('li', null, h('i', { class: se.tracejada ? 'tracejada' : '', style: se.tracejada ? `border-color:${se.cor}` : `background:${se.cor}` }), se.nome));
@@ -117,11 +124,11 @@ function desenharGrafico(caixa, cfg) {
   const legenda = itensLegenda.length > 1 ? h('ul', { class: 'legenda' }, itensLegenda) : null;
 
   // tabela de dados (alternativa acessível)
-  const cab = h('tr', null, h('th', null, cfg.nomeX || 'Período'), series.map(se => h('th', null, se.nome)), faixa ? [h('th', null, faixa.nome + ' (mín.)'), h('th', null, faixa.nome + ' (máx.)')] : null);
-  const linhas = x.map((xv, i) => h('tr', null, h('td', null, formatoX(xv)), series.map(se => h('td', null, (se.formatoDica || formatoY)(se.valores[i]))),
+  const cab = h('tr', null, h('th', { scope: 'col' }, cfg.nomeX || 'Período'), series.map(se => h('th', { scope: 'col' }, se.nome)), faixa ? [h('th', { scope: 'col' }, faixa.nome + ' (mín.)'), h('th', { scope: 'col' }, faixa.nome + ' (máx.)')] : null);
+  const linhas = x.map((xv, i) => h('tr', null, h('th', { scope: 'row' }, formatoX(xv)), series.map(se => h('td', null, (se.formatoDica || formatoY)(se.valores[i]))),
     faixa ? [h('td', null, formatoY(faixa.inferior[i])), h('td', null, formatoY(faixa.superior[i]))] : null));
-  const tabela = h('details', { class: 'tabela-dados' }, h('summary', null, 'Ver dados em tabela'),
-    h('div', { class: 'rolagem' }, h('table', null, h('thead', null, cab), h('tbody', null, linhas))));
+  const tabela = h('details', { class: 'tabela-dados', open: tabelaAberta ? true : null }, h('summary', null, 'Ver dados em tabela'),
+    h('div', { class: 'rolagem', tabindex: '0', role: 'region', 'aria-label': 'Dados do gráfico: ' + (titulo || '') }, h('table', null, h('thead', null, cab), h('tbody', null, linhas))));
 
   caixa.replaceChildren(...[legenda, svg, dica, tabela].filter(Boolean));
 }

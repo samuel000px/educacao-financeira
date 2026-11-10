@@ -1,10 +1,16 @@
 <!doctype html>
-<html lang="pt-BR"><head>
+<html lang="pt-BR">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Glossário da Economia – CORECON-PB</title>
 <meta name="description" content="Termos da economia explicados de forma simples, com enciclopédia em níveis, simuladores, trilhas e quiz. Uma iniciativa do CORECON-PB em apoio ao “PB sem dívidas”.">
 <meta name="theme-color" content="#0b5d3b">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Glossário da Economia – CORECON-PB">
+<meta property="og:description" content="Termos da economia explicados de forma simples, com enciclopédia em níveis, simuladores, trilhas e quiz. Uma iniciativa do CORECON-PB em apoio ao “PB sem dívidas”.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b5d3b'/%3E%3Cpath d='M7 22l6-7 5 4 7-9' stroke='%23fff' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="assets/css/estilo.css">
 <script>
@@ -60,20 +66,20 @@
       <span class="marca-simbolo" aria-hidden="true"><svg viewBox="0 0 32 32"><path d="M6 23l6.5-7.5 5 4 8.5-10.5"></path></svg></span>
       <span class="marca-texto"><strong>Glossário da Economia</strong><small>CORECON-PB · PB sem dívidas</small></span>
     </a>
-    <nav class="menu-principal" id="menu" aria-label="Seções">
-      <a href="#/enciclopedia" data-secao="enciclopedia"><svg class="ic"><use href="#i-livro"></use></svg>Enciclopédia</a>
-      <a href="#/simuladores" data-secao="simuladores"><svg class="ic"><use href="#i-calc"></use></svg>Simuladores</a>
-      <a href="#/trilhas" data-secao="trilhas"><svg class="ic"><use href="#i-trilha"></use></svg>Trilhas</a>
-      <a href="#/glossario" data-secao="glossario"><svg class="ic"><use href="#i-az"></use></svg>Glossário A–Z</a>
-      <a href="#/quiz" data-secao="quiz"><svg class="ic"><use href="#i-quiz"></use></svg>Quiz</a>
+    <nav class="menu-principal" id="menu" aria-label="Seções do site">
+      <a href="#/enciclopedia" data-secao="enciclopedia"><svg class="ic" aria-hidden="true"><use href="#i-livro"></use></svg>Enciclopédia</a>
+      <a href="#/simuladores" data-secao="simuladores"><svg class="ic" aria-hidden="true"><use href="#i-calc"></use></svg>Simuladores</a>
+      <a href="#/trilhas" data-secao="trilhas"><svg class="ic" aria-hidden="true"><use href="#i-trilha"></use></svg>Trilhas</a>
+      <a href="#/glossario" data-secao="glossario"><svg class="ic" aria-hidden="true"><use href="#i-az"></use></svg>Glossário A–Z</a>
+      <a href="#/quiz" data-secao="quiz"><svg class="ic" aria-hidden="true"><use href="#i-quiz"></use></svg>Quiz</a>
     </nav>
     <div class="ferramentas">
-      <button type="button" class="btn-busca" id="abrir-busca" aria-haspopup="dialog" aria-keyshortcuts="/ Control+K">
-        <svg class="ic"><use href="#i-busca"></use></svg><span>Buscar termo</span><kbd>/</kbd>
+      <button type="button" class="btn-busca" id="abrir-busca" aria-haspopup="dialog" aria-keyshortcuts="/ Control+K" aria-label="Buscar termo" title="Buscar termo (tecla /)">
+        <svg class="ic" aria-hidden="true"><use href="#i-busca"></use></svg><span>Buscar termo</span><kbd aria-hidden="true">/</kbd>
       </button>
-      <button type="button" class="btn-icone" id="btn-fonte" aria-label="Tamanho da letra" title="Tamanho da letra"><svg class="ic"><use href="#i-letra"></use></svg></button>
-      <button type="button" class="btn-icone" id="btn-tema" aria-label="Alternar modo claro ou escuro" title="Modo claro/escuro"><svg class="ic"><use href="#i-lua"></use></svg></button>
-      <button type="button" class="btn-icone btn-menu" id="btn-menu" aria-controls="menu" aria-expanded="false" aria-label="Abrir menu"><svg class="ic"><use href="#i-menu"></use></svg></button>
+      <button type="button" class="btn-icone" id="btn-fonte" aria-label="Tamanho da letra" title="Tamanho da letra"><svg class="ic" aria-hidden="true"><use href="#i-letra"></use></svg></button>
+      <button type="button" class="btn-icone" id="btn-tema" aria-label="Alternar modo claro ou escuro" title="Modo claro/escuro"><svg class="ic" aria-hidden="true"><use href="#i-lua"></use></svg></button>
+      <button type="button" class="btn-icone btn-menu" id="btn-menu" aria-controls="menu" aria-expanded="false" aria-label="Abrir menu"><svg class="ic" aria-hidden="true"><use href="#i-menu"></use></svg></button>
     </div>
   </div>
   <div class="progresso-leitura" id="progresso-leitura" aria-hidden="true"><span></span></div>
@@ -84,18 +90,20 @@
   <noscript><p>Ative o JavaScript para ver o glossário.</p></noscript>
 </main>
 
-<div class="busca-global" id="busca-global" role="dialog" aria-modal="true" aria-label="Buscar na enciclopédia" hidden="">
+<div class="busca-global" id="busca-global" role="dialog" aria-modal="true" aria-label="Buscar na enciclopédia" hidden>
   <div class="busca-caixa">
     <div class="busca-campo">
-      <svg class="ic"><use href="#i-busca"></use></svg>
+      <svg class="ic" aria-hidden="true"><use href="#i-busca"></use></svg>
       <label for="busca-global-input" class="vh">Buscar um termo</label>
-      <input id="busca-global-input" type="search" placeholder="Busque qualquer termo: juros, IPCA, P/L…" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="busca-global-lista" aria-autocomplete="list">
-      <button type="button" class="btn-icone" id="fechar-busca" aria-label="Fechar busca"><svg class="ic"><use href="#i-fechar"></use></svg></button>
+      <input id="busca-global-input" type="search" placeholder="Busque qualquer termo: juros, IPCA, P/L…" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="busca-global-lista" aria-autocomplete="list" enterkeyhint="search" spellcheck="false">
+      <button type="button" class="btn-icone" id="fechar-busca" aria-label="Fechar busca"><svg class="ic" aria-hidden="true"><use href="#i-fechar"></use></svg></button>
     </div>
     <ul id="busca-global-lista" role="listbox" aria-label="Resultados"></ul>
     <p class="busca-dica"><kbd>↑</kbd><kbd>↓</kbd> navegar · <kbd>Enter</kbd> abrir · <kbd>Esc</kbd> fechar</p>
   </div>
 </div>
+
+<button type="button" class="btn-topo" id="btn-topo" hidden aria-label="Voltar ao topo da página" title="Voltar ao topo"><svg class="ic" aria-hidden="true"><use href="#i-seta"></use></svg></button>
 
 <footer class="rodape">
   <div class="rodape-grade">
@@ -111,6 +119,5 @@
 </footer>
 
 <script type="module" src="assets/js/app.js"></script>
-
-
-</body></html>
+</body>
+</html>

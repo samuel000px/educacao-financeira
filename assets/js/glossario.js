@@ -1,10 +1,10 @@
 // Glossário A–Z. Reúne todas as funções do site original:
 // busca sem acentos com realce, filtro por tema, contagem, "Limpar filtros",
-// índice alfabético fixo, filtros salvos na URL (?q= e ?tema=), "Veja também",
+// índice alfabético fixo, filtros salvos na URL (#/glossario?q=…&tema=…), "Veja também",
 // fonte, botão Compartilhar e link direto para cada termo.
 // Novidade: filtro por nível e link para a explicação completa.
 import { D, existe, classeNivel, NIVEIS, achar } from './dados.js';
-import { h, norm, slug, inicial, escrever, icone, toast } from './util.js';
+import { h, norm, slug, inicial, escrever, icone, toast, trocarUrl, plural, debounce } from './util.js';
 
 function paragrafo(rotulo, texto, q) {
   const p = h('p');
@@ -31,11 +31,11 @@ export async function compartilhar(v, botao) {
   setTimeout(() => { rotulo.textContent = original; }, 2000);
 }
 
-export function paginaGlossario(main, { foco } = {}) {
-  const busca = h('input', { id: 'busca', type: 'search', placeholder: 'Ex.: juros', autocomplete: 'off', class: 'campo-texto' });
+export function paginaGlossario(main, { foco, params } = {}) {
+  const busca = h('input', { id: 'busca', type: 'search', placeholder: 'Ex.: juros', autocomplete: 'off', spellcheck: 'false', enterkeyhint: 'search', class: 'campo-texto' });
   const tema = h('select', { id: 'tema' }, h('option', { value: '' }, 'Todos'), D.temas.map(t => h('option', { value: t }, t)));
   const nivel = h('select', { id: 'nivel' }, h('option', { value: '' }, 'Todos'), NIVEIS.map(n => h('option', { value: n }, n)));
-  const contagem = h('p', { id: 'contagem', 'aria-live': 'polite' });
+  const contagem = h('p', { id: 'contagem', role: 'status' });
   const limpar = h('button', { id: 'limpar', type: 'button', class: 'botao secundario pequeno', hidden: true }, 'Limpar filtros');
   const letras = h('nav', { class: 'letras', id: 'letras', 'aria-label': 'Índice alfabético' });
   const lista = h('section', { id: 'lista', 'aria-label': 'Verbetes' });
@@ -51,7 +51,7 @@ export function paginaGlossario(main, { foco } = {}) {
     h('div', { class: 'acoes' }, contagem, limpar),
     letras, lista));
 
-  const p = new URLSearchParams(location.search);
+  const p = params || new URLSearchParams();
   busca.value = p.get('q') || '';
   if ([...tema.options].some(o => o.value === p.get('tema'))) tema.value = p.get('tema');
   if ([...nivel.options].some(o => o.value === p.get('nivel'))) nivel.value = p.get('nivel');
@@ -62,7 +62,8 @@ export function paginaGlossario(main, { foco } = {}) {
     if (tema.value) u.set('tema', tema.value);
     if (nivel.value) u.set('nivel', nivel.value);
     const qs = u.toString();
-    history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+    // os filtros ficam depois do "#" para o link poder ser copiado e não "grudarem" nas outras páginas
+    trocarUrl(location.pathname + location.hash.split('?')[0] + (qs ? '?' + qs : ''));
   }
 
   function mostrar() {
@@ -71,7 +72,7 @@ export function paginaGlossario(main, { foco } = {}) {
     const achados = D.verbetes
       .filter(v => (!t || v.tema === t) && (!n || v.nivel === n) && (!q || norm(v.termo + ' ' + (v.sinonimos || []).join(' ') + ' ' + v.definicao + ' ' + (v.exemplo || '')).includes(q)))
       .sort((a, b) => a.termo.localeCompare(b.termo, 'pt-BR'));
-    contagem.textContent = achados.length + (achados.length === 1 ? ' termo encontrado' : ' termos encontrados');
+    contagem.textContent = plural(achados.length, 'termo encontrado', 'termos encontrados');
     limpar.hidden = !q && !t && !n;
     lista.replaceChildren();
 
@@ -85,14 +86,14 @@ export function paginaGlossario(main, { foco } = {}) {
       if (l === '#' && !grupos.has('#')) continue;
       const idLetra = 'letra-' + (l === '#' ? 'outros' : l);
       const el = grupos.has(l)
-        ? h('a', { href: '#/glossario', 'aria-label': 'Letra ' + l, onclick: (e) => { e.preventDefault(); document.getElementById(idLetra)?.scrollIntoView(); } }, l)
+        ? h('a', { href: '#/glossario', 'aria-label': 'Ir para a letra ' + (l === '#' ? 'outros' : l), onclick: (e) => { e.preventDefault(); const alvo = document.getElementById(idLetra); if (alvo) { alvo.scrollIntoView(); alvo.focus({ preventScroll: true }); } } }, l)
         : h('span', { 'aria-hidden': 'true' }, l);
       letras.append(el);
     }
     letras.hidden = achados.length < 2;
 
     for (const [l, itens] of grupos) {
-      const g = h('section', { class: 'grupo' }, h('h2', { id: 'letra-' + (l === '#' ? 'outros' : l) }, l));
+      const g = h('section', { class: 'grupo' }, h('h2', { id: 'letra-' + (l === '#' ? 'outros' : l), tabindex: '-1' }, l));
       for (const v of itens) {
         const el = h('article', { class: 'verbete', id: v.slug });
         el.append(escrever(h('h3'), v.termo, q));
@@ -123,7 +124,7 @@ export function paginaGlossario(main, { foco } = {}) {
   }
 
   const aoFiltrar = () => { salvarNaUrl(); mostrar(); };
-  busca.addEventListener('input', aoFiltrar);
+  busca.addEventListener('input', debounce(aoFiltrar, 80));
   tema.addEventListener('change', aoFiltrar);
   nivel.addEventListener('change', aoFiltrar);
   limpar.addEventListener('click', () => { busca.value = ''; tema.value = ''; nivel.value = ''; aoFiltrar(); busca.focus(); });
@@ -134,6 +135,6 @@ export function paginaGlossario(main, { foco } = {}) {
     const v = achar(foco);
     if (v && !document.getElementById(v.slug)) { busca.value = ''; tema.value = ''; nivel.value = ''; salvarNaUrl(); mostrar(); }
     const alvo = v && document.getElementById(v.slug);
-    if (alvo) { alvo.classList.add('alvo'); requestAnimationFrame(() => alvo.scrollIntoView()); }
+    if (alvo) { alvo.classList.add('alvo'); requestAnimationFrame(() => alvo.scrollIntoView({ behavior: 'instant', block: 'start' })); }
   }
 }
