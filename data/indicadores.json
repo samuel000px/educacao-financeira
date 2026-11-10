@@ -1,0 +1,38 @@
+{
+ "atualizado_em": "10/11/2026",
+ "nota": "Valores do comunicado do Copom (Banco Central) e da divulgação do IBGE, conferidos em 10/11/2026. Indicadores mudam: confira sempre a fonte original. Para atualizar, edite data/indicadores.json.",
+ "itens": [
+  {
+   "nome": "Meta da taxa Selic",
+   "curto": "SELIC",
+   "valor": "13,75% a.a.",
+   "referencia": "decisão do Copom de 04/11/2026",
+   "fonte": "Banco Central do Brasil",
+   "conceito": "Taxa Selic"
+  },
+  {
+   "nome": "Meta de inflação",
+   "curto": "META",
+   "valor": "3,00%",
+   "referencia": "intervalo de 1,50% a 4,50% (meta contínua)",
+   "fonte": "CMN / Banco Central",
+   "conceito": "Regime de metas para a inflação"
+  },
+  {
+   "nome": "IPCA-15 em 12 meses (prévia da inflação)",
+   "curto": "IPCA-15 12M",
+   "valor": "4,62%",
+   "referencia": "até out/2026, divulgado em 23/10/2026",
+   "fonte": "IBGE",
+   "conceito": "IPCA"
+  },
+  {
+   "nome": "Próxima reunião do Copom",
+   "curto": "COPOM",
+   "valor": "8 e 9/12",
+   "referencia": "última reunião de 2026",
+   "fonte": "Banco Central do Brasil",
+   "conceito": "Copom"
+  }
+ ]
+}

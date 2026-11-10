@@ -1,0 +1,940 @@
+[
+ {
+  "id": "q001",
+  "conceito": "Reserva de emergência",
+  "nivel": "Básico",
+  "pergunta": "Qual é o melhor lugar para guardar a reserva de emergência?",
+  "opcoes": [
+   "Ações de uma única empresa",
+   "Aplicação segura com resgate rápido, como Tesouro Selic ou CDB com liquidez diária",
+   "Imóvel para alugar",
+   "Limite do cartão de crédito"
+  ],
+  "correta": 1,
+  "explicacao": "A reserva precisa de segurança e liquidez. Ações e imóveis podem estar em baixa ou demorar para virar dinheiro; limite de cartão é dívida, não reserva."
+ },
+ {
+  "id": "q002",
+  "conceito": "Reserva de emergência",
+  "nivel": "Básico",
+  "pergunta": "Quem gasta R$ 2.000 por mês com o essencial e quer cobrir 6 meses precisa de uma reserva de:",
+  "opcoes": [
+   "R$ 2.000",
+   "R$ 6.000",
+   "R$ 12.000",
+   "R$ 24.000"
+  ],
+  "correta": 2,
+  "explicacao": "Meta = gastos essenciais × meses de cobertura = 2.000 × 6 = R$ 12.000."
+ },
+ {
+  "id": "q003",
+  "conceito": "Orçamento pessoal",
+  "nivel": "Básico",
+  "pergunta": "Num orçamento, parcelas de uma compra feita no cartão devem ser tratadas como:",
+  "opcoes": [
+   "Gasto que já passou",
+   "Despesa fixa até a última parcela",
+   "Receita",
+   "Investimento"
+  ],
+  "correta": 1,
+  "explicacao": "As parcelas comprometem a renda dos meses seguintes e precisam entrar no orçamento até acabar."
+ },
+ {
+  "id": "q004",
+  "conceito": "Endividamento",
+  "nivel": "Básico",
+  "pergunta": "Qual a diferença entre estar endividado e estar inadimplente?",
+  "opcoes": [
+   "Não há diferença",
+   "Endividado tem dívidas; inadimplente está com pagamentos em atraso",
+   "Inadimplente tem mais dívidas",
+   "Endividado deve só ao banco"
+  ],
+  "correta": 1,
+  "explicacao": "Ter dívida em dia é endividamento; atraso é inadimplência."
+ },
+ {
+  "id": "q005",
+  "conceito": "Endividamento",
+  "nivel": "Básico",
+  "pergunta": "Uma dívida de R$ 3.000 tem juros de 8% ao mês. Se você paga R$ 200 por mês, o que acontece?",
+  "opcoes": [
+   "Quita em 15 meses",
+   "A dívida não diminui, porque os juros do mês (R$ 240) são maiores que o pagamento",
+   "Quita em 2 anos",
+   "A dívida cai pela metade em um ano"
+  ],
+  "correta": 1,
+  "explicacao": "8% de R$ 3.000 = R$ 240 de juros no primeiro mês. Pagando R$ 200, o saldo cresce."
+ },
+ {
+  "id": "q006",
+  "conceito": "Custo Efetivo Total (CET)",
+  "nivel": "Básico",
+  "pergunta": "Para comparar duas ofertas de empréstimo, o melhor número é:",
+  "opcoes": [
+   "A taxa de juros nominal",
+   "O valor da parcela",
+   "O Custo Efetivo Total (CET)",
+   "O prazo"
+  ],
+  "correta": 2,
+  "explicacao": "O CET inclui juros, tarifas, impostos e seguros; é o custo real da operação."
+ },
+ {
+  "id": "q007",
+  "conceito": "Crédito rotativo do cartão",
+  "nivel": "Básico",
+  "pergunta": "Pagar só o valor mínimo da fatura do cartão:",
+  "opcoes": [
+   "Evita juros",
+   "Faz o restante entrar no rotativo, uma das linhas de crédito mais caras",
+   "Quita a dívida",
+   "Melhora o limite"
+  ],
+  "correta": 1,
+  "explicacao": "O saldo não pago é financiado no rotativo, com juros altos."
+ },
+ {
+  "id": "q008",
+  "conceito": "Inflação",
+  "nivel": "Básico",
+  "pergunta": "Se você tem R$ 100 numa conta que rende 2% ao ano e a inflação é de 5% ao ano, depois de um ano você poderá comprar:",
+  "opcoes": [
+   "Mais do que hoje",
+   "Exatamente o mesmo",
+   "Menos do que hoje",
+   "Não é possível saber"
+  ],
+  "correta": 2,
+  "explicacao": "Seu dinheiro cresceu 2%, mas os preços subiram 5%: o poder de compra caiu cerca de 2,9%."
+ },
+ {
+  "id": "q009",
+  "conceito": "Inflação",
+  "nivel": "Básico",
+  "pergunta": "Inflação é:",
+  "opcoes": [
+   "A alta de preço de um único produto",
+   "O aumento persistente e generalizado dos preços",
+   "A queda do salário",
+   "O aumento dos juros"
+  ],
+  "correta": 1,
+  "explicacao": "Inflação é um fenômeno geral e persistente, não um aumento isolado."
+ },
+ {
+  "id": "q010",
+  "conceito": "Inflação acumulada",
+  "nivel": "Básico",
+  "pergunta": "Inflação de 1% em janeiro e 1% em fevereiro resulta em inflação acumulada no bimestre de:",
+  "opcoes": [
+   "2,00%",
+   "2,01%",
+   "1,00%",
+   "1,99%"
+  ],
+  "correta": 1,
+  "explicacao": "(1,01 × 1,01) − 1 = 2,01%. As taxas se multiplicam."
+ },
+ {
+  "id": "q011",
+  "conceito": "IPCA",
+  "nivel": "Básico",
+  "pergunta": "Quem calcula o IPCA, a inflação oficial do Brasil?",
+  "opcoes": [
+   "Banco Central",
+   "IBGE",
+   "FGV",
+   "Tesouro Nacional"
+  ],
+  "correta": 1,
+  "explicacao": "O IPCA é calculado pelo IBGE. A FGV calcula o IGP-M."
+ },
+ {
+  "id": "q012",
+  "conceito": "IPCA",
+  "nivel": "Intermediário",
+  "pergunta": "O IPCA mede a inflação para famílias com rendimentos de:",
+  "opcoes": [
+   "1 a 5 salários mínimos",
+   "1 a 40 salários mínimos",
+   "Qualquer renda",
+   "Acima de 10 salários mínimos"
+  ],
+  "correta": 1,
+  "explicacao": "IPCA: 1 a 40 salários mínimos. O INPC cobre 1 a 5."
+ },
+ {
+  "id": "q013",
+  "conceito": "IGP-M",
+  "nivel": "Intermediário",
+  "pergunta": "Por que o IGP-M costuma ser mais sensível ao dólar do que o IPCA?",
+  "opcoes": [
+   "Porque é calculado nos EUA",
+   "Porque 60% dele são preços ao produtor, que incluem commodities cotadas em dólar",
+   "Porque só mede aluguéis",
+   "Porque é calculado pelo Banco Central"
+  ],
+  "correta": 1,
+  "explicacao": "O IPA, com peso de 60% no IGP-M, inclui muitas commodities com preço internacional."
+ },
+ {
+  "id": "q014",
+  "conceito": "Inflação de custos",
+  "nivel": "Intermediário",
+  "pergunta": "Uma alta forte do diesel que encarece fretes e alimentos é um exemplo de:",
+  "opcoes": [
+   "Inflação de demanda",
+   "Inflação de custos",
+   "Deflação",
+   "Desinflação"
+  ],
+  "correta": 1,
+  "explicacao": "O aumento vem do custo de produção e transporte, não de excesso de procura."
+ },
+ {
+  "id": "q015",
+  "conceito": "Desinflação",
+  "nivel": "Intermediário",
+  "pergunta": "Se a inflação em 12 meses cai de 6% para 4%, temos:",
+  "opcoes": [
+   "Deflação",
+   "Desinflação",
+   "Hiperinflação",
+   "Estagflação"
+  ],
+  "correta": 1,
+  "explicacao": "Os preços continuam subindo, só que mais devagar: é desinflação."
+ },
+ {
+  "id": "q016",
+  "conceito": "Hiperinflação",
+  "nivel": "Intermediário",
+  "pergunta": "Pelo critério clássico de Cagan, há hiperinflação quando os preços sobem mais de:",
+  "opcoes": [
+   "10% ao ano",
+   "50% ao ano",
+   "50% ao mês",
+   "100% ao ano"
+  ],
+  "correta": 2,
+  "explicacao": "Cagan (1956) definiu hiperinflação como inflação acima de 50% ao mês."
+ },
+ {
+  "id": "q017",
+  "conceito": "Expectativas inflacionárias",
+  "nivel": "Intermediário",
+  "pergunta": "O Boletim Focus, publicado pelo Banco Central, reúne:",
+  "opcoes": [
+   "As decisões do Copom",
+   "Projeções de instituições do mercado para inflação, Selic, PIB e câmbio",
+   "Os preços de ações",
+   "A arrecadação federal"
+  ],
+  "correta": 1,
+  "explicacao": "O Focus traz a mediana das expectativas do mercado."
+ },
+ {
+  "id": "q018",
+  "conceito": "Núcleos de inflação",
+  "nivel": "Avançado",
+  "pergunta": "Para que servem os núcleos de inflação?",
+  "opcoes": [
+   "Medir só a inflação de alimentos",
+   "Separar choques temporários da tendência da inflação",
+   "Calcular o salário mínimo",
+   "Medir a inflação no atacado"
+  ],
+  "correta": 1,
+  "explicacao": "Os núcleos retiram ou suavizam itens voláteis para mostrar a inflação persistente."
+ },
+ {
+  "id": "q019",
+  "conceito": "Juros compostos",
+  "nivel": "Básico",
+  "pergunta": "Você aplica R$ 1.000 a 10% ao ano por 2 anos, com juros compostos. Ao final, terá:",
+  "opcoes": [
+   "R$ 1.200",
+   "R$ 1.210",
+   "R$ 1.100",
+   "R$ 1.020"
+  ],
+  "correta": 1,
+  "explicacao": "1.000 × 1,1 × 1,1 = R$ 1.210. No segundo ano, os juros incidem também sobre os R$ 100 do primeiro."
+ },
+ {
+  "id": "q020",
+  "conceito": "Juros compostos",
+  "nivel": "Intermediário",
+  "pergunta": "Uma taxa de 1% ao mês equivale a quanto ao ano, em juros compostos?",
+  "opcoes": [
+   "12,00%",
+   "12,68%",
+   "11,36%",
+   "10,00%"
+  ],
+  "correta": 1,
+  "explicacao": "(1,01)¹² − 1 ≈ 12,68%."
+ },
+ {
+  "id": "q021",
+  "conceito": "Juros simples",
+  "nivel": "Básico",
+  "pergunta": "Em juros simples, os juros de cada período são calculados sobre:",
+  "opcoes": [
+   "O saldo acumulado",
+   "O valor inicial",
+   "A inflação",
+   "A taxa Selic"
+  ],
+  "correta": 1,
+  "explicacao": "Juros simples incidem sempre sobre o capital inicial."
+ },
+ {
+  "id": "q022",
+  "conceito": "Juros reais",
+  "nivel": "Intermediário",
+  "pergunta": "Um investimento rende 10% ao ano e a inflação é de 4%. O juro real exato é de aproximadamente:",
+  "opcoes": [
+   "6,00%",
+   "5,77%",
+   "14,00%",
+   "4,00%"
+  ],
+  "correta": 1,
+  "explicacao": "Fisher: 1,10 ÷ 1,04 − 1 ≈ 5,77%. A conta 10 − 4 = 6% é só uma aproximação."
+ },
+ {
+  "id": "q023",
+  "conceito": "Juros prefixados",
+  "nivel": "Básico",
+  "pergunta": "Num título prefixado, você sabe desde o início:",
+  "opcoes": [
+   "Quanto vai receber se ficar até o vencimento",
+   "Quanto será a inflação",
+   "Quanto será a Selic",
+   "Que não pode resgatar"
+  ],
+  "correta": 0,
+  "explicacao": "A taxa é definida na compra; levado ao vencimento, o título paga exatamente essa taxa."
+ },
+ {
+  "id": "q024",
+  "conceito": "Spread bancário",
+  "nivel": "Intermediário",
+  "pergunta": "Segundo o Banco Central, um dos maiores componentes do spread bancário no Brasil é:",
+  "opcoes": [
+   "O custo da inadimplência",
+   "O salário mínimo",
+   "A taxa de câmbio",
+   "O preço do petróleo"
+  ],
+  "correta": 0,
+  "explicacao": "A inadimplência costuma ser o maior componente na decomposição do spread do Relatório de Economia Bancária."
+ },
+ {
+  "id": "q025",
+  "conceito": "Curva de juros",
+  "nivel": "Avançado",
+  "pergunta": "Uma curva de juros 'invertida' (taxas longas abaixo das curtas) costuma indicar que o mercado espera:",
+  "opcoes": [
+   "Juros mais altos no futuro",
+   "Juros mais baixos no futuro",
+   "Inflação muito maior",
+   "Nada; não tem significado"
+  ],
+  "correta": 1,
+  "explicacao": "Pela teoria das expectativas, taxas longas menores sugerem cortes de juros à frente."
+ },
+ {
+  "id": "q026",
+  "conceito": "Taxa Selic",
+  "nivel": "Básico",
+  "pergunta": "Quem define a meta da taxa Selic?",
+  "opcoes": [
+   "O Congresso",
+   "O Copom, do Banco Central",
+   "O Ministério da Fazenda",
+   "A B3"
+  ],
+  "correta": 1,
+  "explicacao": "A meta da Selic é definida pelo Comitê de Política Monetária (Copom)."
+ },
+ {
+  "id": "q027",
+  "conceito": "Taxa Selic",
+  "nivel": "Básico",
+  "pergunta": "Quando o Banco Central sobe a Selic, o efeito esperado é:",
+  "opcoes": [
+   "Crédito mais barato e mais consumo",
+   "Crédito mais caro, consumo menor e inflação desacelerando com o tempo",
+   "Mais inflação imediatamente",
+   "Dólar sempre mais caro"
+  ],
+  "correta": 1,
+  "explicacao": "Juros mais altos esfriam a demanda e ajudam a reduzir a inflação, com defasagem."
+ },
+ {
+  "id": "q028",
+  "conceito": "Copom",
+  "nivel": "Básico",
+  "pergunta": "Quantas reuniões o Copom faz por ano?",
+  "opcoes": [
+   "4",
+   "6",
+   "8",
+   "12"
+  ],
+  "correta": 2,
+  "explicacao": "O Copom se reúne oito vezes por ano."
+ },
+ {
+  "id": "q029",
+  "conceito": "Regime de metas para a inflação",
+  "nivel": "Intermediário",
+  "pergunta": "No regime de meta contínua em vigor desde 2025, a meta é considerada descumprida quando:",
+  "opcoes": [
+   "A inflação de um mês passa de 0,5%",
+   "A inflação em 12 meses fica fora do intervalo de tolerância por seis meses seguidos",
+   "O PIB cai",
+   "A Selic passa de 10%"
+  ],
+  "correta": 1,
+  "explicacao": "A meta é avaliada continuamente; o descumprimento ocorre após seis meses consecutivos fora do intervalo."
+ },
+ {
+  "id": "q030",
+  "conceito": "Selic meta e Selic efetiva",
+  "nivel": "Intermediário",
+  "pergunta": "A Selic que corrige o Tesouro Selic é:",
+  "opcoes": [
+   "A Selic meta",
+   "A Selic efetiva (média das operações diárias com títulos públicos)",
+   "O CDI",
+   "O IPCA"
+  ],
+  "correta": 1,
+  "explicacao": "O Tesouro Selic acompanha a Selic efetiva."
+ },
+ {
+  "id": "q031",
+  "conceito": "CDI",
+  "nivel": "Básico",
+  "pergunta": "Um CDB que paga 100% do CDI tende a render:",
+  "opcoes": [
+   "Igual à inflação",
+   "Próximo da taxa Selic",
+   "O mesmo que a poupança",
+   "O mesmo que o Ibovespa"
+  ],
+  "correta": 1,
+  "explicacao": "O CDI fica muito próximo da Selic; por isso 100% do CDI rende próximo da Selic."
+ },
+ {
+  "id": "q032",
+  "conceito": "LCI e LCA",
+  "nivel": "Intermediário",
+  "pergunta": "Uma LCA isenta de IR paga 90% do CDI. Com IR de 15%, um CDB precisaria pagar cerca de quanto para render o mesmo, líquido?",
+  "opcoes": [
+   "90% do CDI",
+   "95% do CDI",
+   "105,9% do CDI",
+   "115% do CDI"
+  ],
+  "correta": 2,
+  "explicacao": "90% ÷ (1 − 0,15) ≈ 105,9% do CDI."
+ },
+ {
+  "id": "q033",
+  "conceito": "Fundo Garantidor de Créditos (FGC)",
+  "nivel": "Básico",
+  "pergunta": "Qual destes investimentos NÃO tem garantia do FGC?",
+  "opcoes": [
+   "Poupança",
+   "CDB",
+   "LCI",
+   "Debêntures"
+  ],
+  "correta": 3,
+  "explicacao": "Debêntures são dívida de empresas e não têm garantia do FGC; o risco é do emissor."
+ },
+ {
+  "id": "q034",
+  "conceito": "Tesouro Direto",
+  "nivel": "Básico",
+  "pergunta": "Qual título do Tesouro Direto é o mais indicado para a reserva de emergência?",
+  "opcoes": [
+   "Tesouro IPCA+ com vencimento em 2045",
+   "Tesouro Selic",
+   "Tesouro Prefixado de 10 anos",
+   "Tesouro RendA+"
+  ],
+  "correta": 1,
+  "explicacao": "O Tesouro Selic tem baixa oscilação e acompanha a Selic, adequado para liquidez."
+ },
+ {
+  "id": "q035",
+  "conceito": "Marcação a mercado",
+  "nivel": "Intermediário",
+  "pergunta": "Se os juros de mercado sobem logo depois que você compra um título prefixado longo, o preço dele no dia:",
+  "opcoes": [
+   "Sobe",
+   "Cai",
+   "Não muda",
+   "Dobra"
+  ],
+  "correta": 1,
+  "explicacao": "Taxa maior significa valor presente menor: o preço cai na marcação a mercado."
+ },
+ {
+  "id": "q036",
+  "conceito": "Diversificação",
+  "nivel": "Básico",
+  "pergunta": "Investir em vários ativos que não se movem juntos tende a:",
+  "opcoes": [
+   "Aumentar o risco total",
+   "Reduzir o risco total da carteira",
+   "Garantir lucro",
+   "Eliminar todo o risco"
+  ],
+  "correta": 1,
+  "explicacao": "A diversificação reduz o risco específico, mas não elimina o risco de mercado."
+ },
+ {
+  "id": "q037",
+  "conceito": "Risco e retorno",
+  "nivel": "Básico",
+  "pergunta": "Uma aplicação promete 5% ao mês 'garantidos' e sem risco. O mais provável é que seja:",
+  "opcoes": [
+   "Um ótimo negócio",
+   "Um golpe ou um risco escondido",
+   "Um título do Tesouro",
+   "Uma poupança especial"
+  ],
+  "correta": 1,
+  "explicacao": "Retorno alto sem risco não existe; promessas assim são sinal típico de pirâmide financeira."
+ },
+ {
+  "id": "q038",
+  "conceito": "Volatilidade",
+  "nivel": "Intermediário",
+  "pergunta": "Volatilidade mede:",
+  "opcoes": [
+   "O retorno médio",
+   "O quanto o preço oscila",
+   "Os dividendos pagos",
+   "O prazo do investimento"
+  ],
+  "correta": 1,
+  "explicacao": "É, em geral, o desvio-padrão dos retornos."
+ },
+ {
+  "id": "q039",
+  "conceito": "Ações",
+  "nivel": "Básico",
+  "pergunta": "Quem compra ações de uma empresa se torna:",
+  "opcoes": [
+   "Credor da empresa",
+   "Sócio da empresa",
+   "Funcionário",
+   "Cliente preferencial"
+  ],
+  "correta": 1,
+  "explicacao": "Ações representam parte do capital social; quem compra títulos de dívida (debêntures) é credor."
+ },
+ {
+  "id": "q040",
+  "conceito": "Dividendos",
+  "nivel": "Básico",
+  "pergunta": "Dividendos são:",
+  "opcoes": [
+   "Empréstimos da empresa ao acionista",
+   "Parte do lucro distribuída aos acionistas",
+   "Impostos sobre ações",
+   "Taxas da corretora"
+  ],
+  "correta": 1,
+  "explicacao": "É a distribuição de parte do lucro."
+ },
+ {
+  "id": "q041",
+  "conceito": "P/L",
+  "nivel": "Intermediário",
+  "pergunta": "Uma ação custa R$ 40 e o lucro por ação é R$ 4. O P/L é:",
+  "opcoes": [
+   "4",
+   "10",
+   "40",
+   "0,1"
+  ],
+  "correta": 1,
+  "explicacao": "P/L = 40 ÷ 4 = 10."
+ },
+ {
+  "id": "q042",
+  "conceito": "ROE",
+  "nivel": "Intermediário",
+  "pergunta": "Lucro líquido de R$ 200 milhões e patrimônio líquido de R$ 1 bilhão: o ROE é:",
+  "opcoes": [
+   "2%",
+   "5%",
+   "20%",
+   "200%"
+  ],
+  "correta": 2,
+  "explicacao": "ROE = 200 ÷ 1.000 = 20%."
+ },
+ {
+  "id": "q043",
+  "conceito": "FIIs",
+  "nivel": "Intermediário",
+  "pergunta": "Os FIIs devem distribuir, a cada semestre, pelo menos:",
+  "opcoes": [
+   "25% do lucro",
+   "50% do lucro",
+   "95% do lucro apurado em regime de caixa",
+   "100% da receita"
+  ],
+  "correta": 2,
+  "explicacao": "A Lei nº 8.668/1993 exige distribuição mínima de 95% do lucro semestral (regime de caixa)."
+ },
+ {
+  "id": "q044",
+  "conceito": "ETFs",
+  "nivel": "Intermediário",
+  "pergunta": "Um ETF de Ibovespa:",
+  "opcoes": [
+   "Investe em uma única ação",
+   "Busca replicar o desempenho do índice Ibovespa",
+   "Garante o retorno do CDI",
+   "É um título público"
+  ],
+  "correta": 1,
+  "explicacao": "ETFs são fundos de índice negociados na bolsa."
+ },
+ {
+  "id": "q045",
+  "conceito": "BDRs",
+  "nivel": "Intermediário",
+  "pergunta": "Com o dólar subindo e o preço da ação no exterior parado, o BDR tende a:",
+  "opcoes": [
+   "Subir em reais",
+   "Cair em reais",
+   "Ficar igual",
+   "Ser cancelado"
+  ],
+  "correta": 0,
+  "explicacao": "O BDR reflete o ativo em moeda estrangeira convertido em reais."
+ },
+ {
+  "id": "q046",
+  "conceito": "PIB",
+  "nivel": "Básico",
+  "pergunta": "Pela ótica da despesa, o PIB é igual a:",
+  "opcoes": [
+   "Salários + lucros",
+   "C + I + G + (X − M)",
+   "Impostos − gastos",
+   "Exportações − importações"
+  ],
+  "correta": 1,
+  "explicacao": "Consumo + investimento + gastos do governo + exportações líquidas."
+ },
+ {
+  "id": "q047",
+  "conceito": "PIB nominal e real",
+  "nivel": "Intermediário",
+  "pergunta": "Para saber se a economia produziu mais, devemos olhar:",
+  "opcoes": [
+   "O PIB nominal",
+   "O PIB real",
+   "A arrecadação",
+   "O câmbio"
+  ],
+  "correta": 1,
+  "explicacao": "O PIB real retira o efeito da inflação."
+ },
+ {
+  "id": "q048",
+  "conceito": "Recessão",
+  "nivel": "Básico",
+  "pergunta": "Uma regra prática usada pela imprensa para recessão é:",
+  "opcoes": [
+   "Um mês de inflação alta",
+   "Dois trimestres seguidos de queda do PIB",
+   "Dólar acima de R$ 5",
+   "Selic acima de 10%"
+  ],
+  "correta": 1,
+  "explicacao": "É uma aproximação; no Brasil, o CODACE/FGV faz a datação oficial dos ciclos."
+ },
+ {
+  "id": "q049",
+  "conceito": "Estagflação",
+  "nivel": "Intermediário",
+  "pergunta": "Estagflação é a combinação de:",
+  "opcoes": [
+   "Crescimento forte e inflação baixa",
+   "Economia estagnada e inflação alta",
+   "Deflação e desemprego baixo",
+   "Juros baixos e câmbio estável"
+  ],
+  "correta": 1,
+  "explicacao": "É o pior dos dois mundos: atividade fraca e preços subindo."
+ },
+ {
+  "id": "q050",
+  "conceito": "Desemprego",
+  "nivel": "Intermediário",
+  "pergunta": "Uma pessoa que desistiu de procurar emprego por achar que não vai conseguir é classificada pelo IBGE como:",
+  "opcoes": [
+   "Desocupada",
+   "Desalentada, fora da força de trabalho",
+   "Ocupada",
+   "Informal"
+  ],
+  "correta": 1,
+  "explicacao": "Desalentados não entram no cálculo da taxa de desocupação."
+ },
+ {
+  "id": "q051",
+  "conceito": "Resultado primário",
+  "nivel": "Intermediário",
+  "pergunta": "O resultado primário do governo NÃO inclui:",
+  "opcoes": [
+   "Gastos com saúde",
+   "Gastos com previdência",
+   "Pagamento de juros da dívida",
+   "Arrecadação de impostos"
+  ],
+  "correta": 2,
+  "explicacao": "O primário exclui os juros; o resultado nominal os inclui."
+ },
+ {
+  "id": "q052",
+  "conceito": "Política fiscal",
+  "nivel": "Intermediário",
+  "pergunta": "Cortar impostos e aumentar gastos públicos é uma política fiscal:",
+  "opcoes": [
+   "Contracionista",
+   "Expansionista",
+   "Monetária",
+   "Cambial"
+  ],
+  "correta": 1,
+  "explicacao": "Ela estimula a demanda agregada."
+ },
+ {
+  "id": "q053",
+  "conceito": "Taxa de câmbio",
+  "nivel": "Básico",
+  "pergunta": "Se o dólar passa de R$ 5,00 para R$ 5,50, o que tende a acontecer com o preço de produtos importados no Brasil?",
+  "opcoes": [
+   "Cai",
+   "Sobe",
+   "Não muda",
+   "Cai pela metade"
+  ],
+  "correta": 1,
+  "explicacao": "Cada dólar custa mais reais; importados e insumos ficam mais caros."
+ },
+ {
+  "id": "q054",
+  "conceito": "Taxa de câmbio",
+  "nivel": "Intermediário",
+  "pergunta": "Para um exportador brasileiro, a alta do dólar tende a:",
+  "opcoes": [
+   "Reduzir a receita em reais",
+   "Aumentar a receita em reais",
+   "Não ter efeito",
+   "Aumentar os custos em reais na mesma proporção"
+  ],
+  "correta": 1,
+  "explicacao": "Cada dólar vendido vira mais reais."
+ },
+ {
+  "id": "q055",
+  "conceito": "Balança comercial",
+  "nivel": "Básico",
+  "pergunta": "A balança comercial é superavitária quando:",
+  "opcoes": [
+   "Importações > exportações",
+   "Exportações > importações",
+   "A dívida cai",
+   "O PIB cresce"
+  ],
+  "correta": 1,
+  "explicacao": "Saldo comercial positivo: exporta-se mais do que se importa."
+ },
+ {
+  "id": "q056",
+  "conceito": "Oferta e demanda",
+  "nivel": "Básico",
+  "pergunta": "Se a renda das famílias aumenta e o bem é normal, mantido o resto constante, o preço de equilíbrio tende a:",
+  "opcoes": [
+   "Cair",
+   "Subir",
+   "Ficar igual",
+   "Zerar"
+  ],
+  "correta": 1,
+  "explicacao": "A demanda se desloca para a direita; preço e quantidade sobem."
+ },
+ {
+  "id": "q057",
+  "conceito": "Elasticidade",
+  "nivel": "Intermediário",
+  "pergunta": "O preço sobe 10% e a quantidade vendida cai 5%. A demanda é:",
+  "opcoes": [
+   "Elástica",
+   "Inelástica",
+   "Perfeitamente elástica",
+   "Unitária"
+  ],
+  "correta": 1,
+  "explicacao": "|Eₚ| = 5 ÷ 10 = 0,5 < 1: inelástica. A receita aumenta com a alta de preço."
+ },
+ {
+  "id": "q058",
+  "conceito": "Custo de oportunidade",
+  "nivel": "Básico",
+  "pergunta": "O custo de oportunidade de deixar dinheiro parado na conta-corrente é:",
+  "opcoes": [
+   "Zero",
+   "O rendimento que ele teria na melhor alternativa segura",
+   "A tarifa do banco",
+   "A inflação"
+  ],
+  "correta": 1,
+  "explicacao": "Custo de oportunidade é o valor da melhor alternativa abandonada."
+ },
+ {
+  "id": "q059",
+  "conceito": "Monopólio",
+  "nivel": "Intermediário",
+  "pergunta": "Em comparação com a concorrência perfeita, um monopólio tende a:",
+  "opcoes": [
+   "Cobrar menos e produzir mais",
+   "Cobrar mais e produzir menos",
+   "Cobrar o custo marginal",
+   "Não ter lucro"
+  ],
+  "correta": 1,
+  "explicacao": "O monopolista cobra preço acima do custo marginal, gerando perda de bem-estar."
+ },
+ {
+  "id": "q060",
+  "conceito": "Externalidades",
+  "nivel": "Intermediário",
+  "pergunta": "A poluição de uma fábrica que prejudica pescadores é:",
+  "opcoes": [
+   "Externalidade positiva",
+   "Externalidade negativa",
+   "Custo marginal privado",
+   "Bem público"
+  ],
+  "correta": 1,
+  "explicacao": "O custo recai sobre terceiros que não participam da transação."
+ },
+ {
+  "id": "q061",
+  "conceito": "Bens substitutos e complementares",
+  "nivel": "Básico",
+  "pergunta": "Carro e gasolina são bens:",
+  "opcoes": [
+   "Substitutos",
+   "Complementares",
+   "Inferiores",
+   "Independentes"
+  ],
+  "correta": 1,
+  "explicacao": "São usados juntos: se a gasolina encarece muito, a demanda por carros a gasolina tende a cair."
+ },
+ {
+  "id": "q062",
+  "conceito": "Sistema Financeiro Nacional",
+  "nivel": "Intermediário",
+  "pergunta": "Qual órgão é o normativo máximo do Sistema Financeiro Nacional?",
+  "opcoes": [
+   "B3",
+   "Conselho Monetário Nacional",
+   "FGC",
+   "Receita Federal"
+  ],
+  "correta": 1,
+  "explicacao": "O CMN define as diretrizes; o Banco Central e a CVM supervisionam."
+ },
+ {
+  "id": "q063",
+  "conceito": "Banco Central do Brasil",
+  "nivel": "Básico",
+  "pergunta": "Pela Lei Complementar nº 179/2021, o objetivo fundamental do Banco Central é:",
+  "opcoes": [
+   "Maximizar o lucro dos bancos",
+   "Assegurar a estabilidade de preços",
+   "Financiar o governo",
+   "Fixar o preço do dólar"
+  ],
+  "correta": 1,
+  "explicacao": "Sem prejuízo desse objetivo, também zela pela estabilidade financeira, suaviza a atividade e fomenta o pleno emprego."
+ },
+ {
+  "id": "q064",
+  "conceito": "Liquidez",
+  "nivel": "Básico",
+  "pergunta": "Qual destes ativos tem maior liquidez?",
+  "opcoes": [
+   "Um terreno",
+   "Um carro",
+   "Dinheiro na conta-corrente",
+   "Uma obra de arte"
+  ],
+  "correta": 2,
+  "explicacao": "Dinheiro em conta pode ser usado imediatamente, sem perda de valor."
+ },
+ {
+  "id": "q065",
+  "conceito": "Depósitos",
+  "nivel": "Intermediário",
+  "pergunta": "Com a meta da Selic acima de 8,5% ao ano, a poupança rende:",
+  "opcoes": [
+   "70% da Selic + TR",
+   "0,5% ao mês + TR",
+   "100% do CDI",
+   "IPCA + 6%"
+  ],
+  "correta": 1,
+  "explicacao": "Pela regra legal, acima de 8,5% a poupança rende 0,5% ao mês + TR."
+ },
+ {
+  "id": "q066",
+  "conceito": "Valuation",
+  "nivel": "Avançado",
+  "pergunta": "No modelo de Gordon, se o dividendo esperado é R$ 2, o custo de capital 12% e o crescimento 4% ao ano, o valor estimado da ação é:",
+  "opcoes": [
+   "R$ 16,67",
+   "R$ 25,00",
+   "R$ 50,00",
+   "R$ 12,50"
+  ],
+  "correta": 1,
+  "explicacao": "P = D₁ ÷ (k − g) = 2 ÷ (0,12 − 0,04) = R$ 25."
+ },
+ {
+  "id": "q067",
+  "conceito": "Diversificação",
+  "nivel": "Avançado",
+  "pergunta": "A diversificação consegue eliminar qual tipo de risco?",
+  "opcoes": [
+   "O risco sistemático (de mercado)",
+   "O risco específico de cada empresa",
+   "Todos os riscos",
+   "Nenhum"
+  ],
+  "correta": 1,
+  "explicacao": "O risco de mercado permanece; o específico pode ser diluído."
+ }
+]

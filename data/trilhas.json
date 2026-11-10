@@ -1,0 +1,202 @@
+[
+ {
+  "id": "primeiros-passos",
+  "titulo": "Primeiros passos: dinheiro no dia a dia",
+  "nivel": "Básico",
+  "icone": "escudo",
+  "tema_quiz": "Crédito e dívidas",
+  "descricao": "Para quem está começando: organizar o orçamento, montar a reserva, entender juros e sair das dívidas. Feita em apoio ao “PB sem dívidas”.",
+  "conceitos": [
+   "Orçamento pessoal",
+   "Reserva de emergência",
+   "Juros",
+   "Juros compostos",
+   "Endividamento",
+   "Crédito rotativo do cartão",
+   "Custo Efetivo Total (CET)",
+   "Inflação",
+   "Poder de compra"
+  ],
+  "simuladores": [
+   "reserva",
+   "divida",
+   "juros-compostos"
+  ]
+ },
+ {
+  "id": "inflacao-e-juros",
+  "titulo": "Inflação e juros sem mistério",
+  "nivel": "Básico",
+  "icone": "carrinho",
+  "tema_quiz": "Inflação",
+  "descricao": "O que é inflação, como é medida e por que os juros sobem e descem com ela.",
+  "conceitos": [
+   "Inflação",
+   "IPCA",
+   "INPC",
+   "IGP-M",
+   "Inflação acumulada",
+   "Juros nominais",
+   "Juros reais",
+   "Taxa Selic",
+   "CDI"
+  ],
+  "simuladores": [
+   "inflacao",
+   "juros-reais"
+  ]
+ },
+ {
+  "id": "investidor-iniciante",
+  "titulo": "Investidor iniciante",
+  "nivel": "Básico",
+  "icone": "investidor",
+  "tema_quiz": "Investimentos",
+  "descricao": "Da renda fixa às ações: como funcionam os principais investimentos e como pensar risco e retorno.",
+  "conceitos": [
+   "Investimentos",
+   "Risco e retorno",
+   "Renda fixa",
+   "Tesouro Direto",
+   "CDB",
+   "LCI e LCA",
+   "Fundo Garantidor de Créditos (FGC)",
+   "Renda variável",
+   "Ações",
+   "FIIs",
+   "ETFs",
+   "Diversificação"
+  ],
+  "simuladores": [
+   "investimentos",
+   "juros-compostos"
+  ]
+ },
+ {
+  "id": "politica-monetaria",
+  "titulo": "Como funciona a política monetária",
+  "nivel": "Intermediário",
+  "icone": "governo",
+  "tema_quiz": "Juros e política monetária",
+  "descricao": "Banco Central, Copom, metas de inflação e como a Selic chega à economia.",
+  "conceitos": [
+   "Banco Central do Brasil",
+   "Conselho Monetário Nacional",
+   "Regime de metas para a inflação",
+   "Copom",
+   "Taxa Selic",
+   "Selic meta e Selic efetiva",
+   "Mercado interbancário",
+   "Expectativas inflacionárias",
+   "Núcleos de inflação",
+   "Política monetária",
+   "Curva de juros"
+  ],
+  "simuladores": [
+   "selic"
+  ]
+ },
+ {
+  "id": "macro-brasil",
+  "titulo": "Macroeconomia do Brasil",
+  "nivel": "Intermediário",
+  "icone": "brasil",
+  "tema_quiz": "Macroeconomia",
+  "descricao": "PIB, ciclos, contas públicas, setor externo e mercado de trabalho: os grandes números da economia.",
+  "conceitos": [
+   "PIB",
+   "PIB nominal e real",
+   "PIB per capita",
+   "Crescimento econômico",
+   "Ciclos econômicos",
+   "Recessão",
+   "Estagflação",
+   "Política fiscal",
+   "Resultado primário",
+   "Dívida pública",
+   "Taxa de câmbio",
+   "Balança comercial",
+   "Balanço de pagamentos",
+   "Reservas internacionais",
+   "Desemprego",
+   "Taxa de participação",
+   "Produtividade"
+  ],
+  "simuladores": [
+   "cambio"
+  ]
+ },
+ {
+  "id": "microeconomia",
+  "titulo": "Microeconomia essencial",
+  "nivel": "Intermediário",
+  "icone": "grafico",
+  "tema_quiz": "Microeconomia",
+  "descricao": "Como os preços se formam e como empresas e consumidores decidem.",
+  "conceitos": [
+   "Oferta e demanda",
+   "Equilíbrio de mercado",
+   "Elasticidade",
+   "Bens substitutos e complementares",
+   "Utilidade marginal",
+   "Custo de oportunidade",
+   "Custo marginal",
+   "Concorrência perfeita",
+   "Monopólio",
+   "Oligopólio",
+   "Externalidades"
+  ],
+  "simuladores": [
+   "oferta-demanda"
+  ]
+ },
+ {
+  "id": "analise-empresas",
+  "titulo": "Análise de empresas",
+  "nivel": "Avançado",
+  "icone": "fabrica",
+  "tema_quiz": "Investimentos",
+  "descricao": "Indicadores fundamentalistas e avaliação de empresas: do LPA ao fluxo de caixa descontado.",
+  "conceitos": [
+   "Ações",
+   "LPA",
+   "VPA",
+   "P/L",
+   "P/VP",
+   "ROE",
+   "ROIC",
+   "Dividendos",
+   "Fluxo de caixa",
+   "Valuation",
+   "Valor intrínseco",
+   "Marcação a mercado"
+  ],
+  "simuladores": [
+   "valuation"
+  ]
+ },
+ {
+  "id": "inflacao-avancada",
+  "titulo": "Inflação: causas e dinâmica",
+  "nivel": "Avançado",
+  "icone": "aviso",
+  "tema_quiz": "Inflação",
+  "descricao": "Inflação de demanda, de custos, inercial e monetária; hiperinflação, deflação e o papel das expectativas.",
+  "conceitos": [
+   "Inflação de demanda",
+   "Inflação de custos",
+   "Inflação inercial",
+   "Inflação monetária",
+   "Hiperinflação",
+   "Deflação",
+   "Desinflação",
+   "Preços monitorados",
+   "Núcleos de inflação",
+   "Expectativas inflacionárias"
+  ],
+  "simuladores": [
+   "oferta-demanda",
+   "inflacao"
+  ]
+ }
+]
