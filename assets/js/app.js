@@ -5,11 +5,13 @@ import { paginaGlossario } from './glossario.js';
 import { paginaConceito } from './conceito.js';
 import { paginaQuiz } from './quiz.js';
 import { paginaInicio, paginaEnciclopedia, paginaSimuladores, paginaTrilhas, paginaSobre } from './paginas.js';
+import { conta, iniciarConta, abrirTrilha } from './conta.js';
+import { paginaConta, paginaEquipe } from './pagina-conta.js';
 
 const main = document.getElementById('conteudo');
 const raiz = document.documentElement;
 const TITULO = 'Glossário da Economia – CORECON-PB';
-const TITULOS = { enciclopedia: 'Enciclopédia', simuladores: 'Simuladores', trilhas: 'Trilhas', glossario: 'Glossário A–Z', quiz: 'Quiz', sobre: 'Metodologia e fontes' };
+const TITULOS = { enciclopedia: 'Enciclopédia', simuladores: 'Simuladores', trilhas: 'Trilhas', glossario: 'Glossário A–Z', quiz: 'Quiz', sobre: 'Metodologia e fontes', conta: 'Minha conta', equipe: 'Estatísticas da equipe' };
 
 // ---------- Rotas ----------
 // #/                      início
@@ -52,7 +54,7 @@ try { history.scrollRestoration = 'manual'; } catch (e) { /* navegador antigo */
 const posicoes = new Map();
 let entradaAtual = null, ultimaEntrada = 0;
 
-function navegar(ev) {
+function navegar(ev, manterRolagem = false) {
   if (entradaAtual != null) posicoes.set(entradaAtual, scrollY);
   const r = rota();
   let est = history.state, voltando = false;
@@ -66,27 +68,58 @@ function navegar(ev) {
     if (a.dataset.secao === r.secao || (r.secao === 'conceito' && a.dataset.secao === 'enciclopedia')) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current');
   });
   try {
-    switch (r.secao) {
+    const trilha = trilhaDaRota(r);
+    if ((r.secao === 'trilhas' || trilha) && conta.modo !== 'online' && conta.modo !== 'desativado') {
+      paginaConta(main, location.hash);
+    } else switch (r.secao) {
       case 'inicio': paginaInicio(main); break;
       case 'enciclopedia': paginaEnciclopedia(main, r.params); break;
       case 'conceito': paginaConceito(main, r.id, r.params); break;
       case 'glossario': paginaGlossario(main, { foco: r.id, params: r.params }); break;
       case 'simuladores': paginaSimuladores(main, r.id); break;
-      case 'trilhas': paginaTrilhas(main, r.id); break;
+      case 'trilhas': paginaTrilhas(main, r.id, conta.modo === 'online'); break;
       case 'quiz': paginaQuiz(main, r.params); break;
       case 'sobre': paginaSobre(main); break;
+      case 'conta': paginaConta(main); break;
+      case 'equipe': paginaEquipe(main); break;
       default:
         document.title = 'Página não encontrada – Glossário da Economia';
         main.replaceChildren(h('div', { class: 'estreito secao' }, h('h1', null, 'Página não encontrada'), h('p', null, h('a', { href: '#/' }, 'Voltar ao início'))));
     }
+    if (trilha && conta.modo === 'online') registrarTrilha(trilha.id);
   } catch (e) {
     console.error(e);
     main.replaceChildren(h('div', { class: 'estreito secao' }, h('h1', null, 'Algo deu errado'), h('p', null, 'Tente recarregar a página.')));
   }
-  if (voltando) window.scrollTo({ top: posicoes.get(est.i) || 0, behavior: 'instant' });
-  else if (!(r.secao === 'glossario' && r.id)) window.scrollTo({ top: 0, behavior: 'instant' });
+  if (!manterRolagem) {
+    if (voltando) window.scrollTo({ top: posicoes.get(est.i) || 0, behavior: 'instant' });
+    else if (!(r.secao === 'glossario' && r.id)) window.scrollTo({ top: 0, behavior: 'instant' });
+  }
   if (ev) main.focus({ preventScroll: true }); // na primeira carga o foco fica no início da página
   atualizarRolagem();
+}
+
+function trilhaDaRota(r) {
+  if (r.secao === 'trilhas') return D.trilhas.find(t => t.id === r.id);
+  if (r.secao !== 'conceito') return null;
+  const trilha = D.trilhas.find(t => t.id === r.params.get('trilha'));
+  const conceito = achar(r.id);
+  return conceito && trilha?.conceitos.some(n => achar(slug(n))?.slug === conceito.slug) ? trilha : null;
+}
+
+function registrarTrilha(id) {
+  const aviso = h('div', { class: 'container', role: 'status' });
+  main.prepend(aviso);
+  async function registrar() {
+    aviso.replaceChildren();
+    try { await abrirTrilha(id); }
+    catch {
+      if (aviso.isConnected) aviso.replaceChildren(
+        h('p', { class: 'fonte' }, 'Não foi possível registrar a abertura desta trilha. ',
+          h('button', { type: 'button', class: 'botao secundario pequeno', onclick: registrar }, 'Tentar novamente')));
+    }
+  }
+  registrar();
 }
 
 // ---------- Topo ----------
@@ -228,7 +261,19 @@ document.addEventListener('keydown', (e) => {
 
 // ---------- Início ----------
 carregar()
-  .then(() => { faixaIndicadores(); medirTopo(); navegar(); addEventListener('hashchange', navegar); })
+  .then(() => {
+    const linkConta = document.getElementById('link-conta');
+    linkConta.hidden = conta.modo === 'desativado';
+    document.addEventListener('conta-atualizada', () => {
+      linkConta.textContent = conta.usuario ? 'Minha conta' : 'Entrar';
+      if (['inicio', 'enciclopedia', 'conceito', 'trilhas', 'conta', 'equipe'].includes(rota().secao)) navegar(undefined, true);
+    });
+    faixaIndicadores();
+    medirTopo();
+    navegar();
+    addEventListener('hashchange', navegar);
+    iniciarConta();
+  })
   .catch((e) => {
     console.error(e);
     main.replaceChildren(h('div', { class: 'estreito secao' }, h('h1', null, 'Glossário da Economia'),

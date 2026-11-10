@@ -107,6 +107,7 @@ mark { background: var(--marca-texto); color: inherit; border-radius: 2px; paddi
 .menu-principal a { display: inline-flex; align-items: center; gap: .4rem; padding: .45rem .7rem; border-radius: var(--raio-p); color: var(--tinta-2); text-decoration: none; font-size: .88rem; font-weight: 550; transition: background var(--dur), color var(--dur); }
 .menu-principal a:hover { background: var(--superficie-2); color: var(--tinta); }
 .menu-principal a[aria-current="page"] { background: var(--marca-suave); color: var(--marca); }
+.menu-principal a[hidden] { display: none; }
 .btn-topo { position: fixed; right: 1rem; bottom: 1rem; z-index: 20; width: 2.75rem; height: 2.75rem; border-radius: 50%; border: 1px solid var(--linha-forte); background: var(--superficie); color: var(--tinta); box-shadow: var(--sombra-forte); cursor: pointer; display: grid; place-items: center; transition: transform var(--dur), border-color var(--dur); }
 .btn-topo .ic { transform: rotate(-90deg); }
 .btn-topo:hover { border-color: var(--marca); transform: translateY(-2px); }
@@ -538,6 +539,18 @@ details.tabela-dados summary:hover { color: var(--tinta); }
 .rodape p { margin: .3rem 0; }
 .toast { position: fixed; bottom: 1.25rem; left: 50%; transform: translateX(-50%) translateY(150%); background: var(--tinta); color: var(--papel); padding: .7rem 1.1rem; border-radius: 999px; font-size: .9rem; z-index: 70; transition: transform .3s ease; box-shadow: var(--sombra-forte); }
 .toast.visivel { transform: translateX(-50%) translateY(0); }
+
+/* Conta e acompanhamento das trilhas */
+.conta-area { margin-top: 1.25rem; }
+.conta-form { display: grid; gap: .75rem; max-width: 28rem; }
+.conta-form label { font-weight: 600; }
+.conta-form [role="status"] { min-height: 1.5em; margin: 0; }
+.conta-email { overflow-wrap: anywhere; }
+.painel-indicadores dt { color: var(--tinta-2); }
+.painel-indicadores dd { margin: .25rem 0 0; color: var(--marca); font-size: 1.8rem; font-weight: 700; }
+.painel-trilha { margin-bottom: .75rem; }
+.painel-trilha summary { cursor: pointer; }
+.painel-trilha p { margin-top: .75rem; }
 .revelar { opacity: 0; transform: translateY(10px); transition: opacity .5s ease, transform .5s ease; }
 .revelar.visto { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .revelar { opacity: 1; transform: none; } }

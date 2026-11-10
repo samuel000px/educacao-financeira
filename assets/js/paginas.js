@@ -173,7 +173,7 @@ export function paginaSimuladores(main, id) {
   revelarAoRolar(main);
 }
 
-export function paginaTrilhas(main, id) {
+export function paginaTrilhas(main, id, conectado) {
   const t = D.trilhas.find(x => x.id === id);
   if (id && !t) trocarUrl(location.pathname + location.search + '#/trilhas'); // trilha inexistente: mostra a lista
   if (t) {
@@ -197,7 +197,8 @@ export function paginaTrilhas(main, id) {
   main.replaceChildren(h('div', { class: 'container secao' },
     h('p', { class: 'sobretitulo' }, 'Do básico ao avançado'),
     h('h1', null, 'Trilhas de aprendizagem'),
-    h('p', { class: 'lead' }, 'Sequências de conceitos pensadas para quem está começando e para quem quer ir além. O progresso fica salvo só neste navegador.'),
+    h('p', { class: 'lead' }, 'Sequências de conceitos pensadas para quem está começando e para quem quer ir além. ' +
+      (conectado ? 'Seu progresso fica salvo na sua conta.' : 'O progresso fica salvo só neste navegador.')),
     h('p', { class: 'fonte' }, `Você já estudou ${est.size} de ${D.verbetes.length} conceitos.`),
     ...NIVEIS.map(n => {
       const ts = D.trilhas.filter(t => t.nivel === n);

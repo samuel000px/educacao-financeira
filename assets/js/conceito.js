@@ -173,11 +173,20 @@ export function paginaConceito(main, id, params) {
 
   let aoMarcar = null;
   const btEstudo = h('button', { type: 'button', class: 'botao', 'aria-pressed': estudado ? 'true' : 'false' }, icone('check'), h('span', null, estudado ? 'Estudado' : 'Marcar como estudado'));
-  btEstudo.addEventListener('click', () => {
-    const on = progresso.alternar(v.slug);
-    btEstudo.setAttribute('aria-pressed', on ? 'true' : 'false'); btEstudo.querySelector('span').textContent = on ? 'Estudado' : 'Marcar como estudado';
-    toast(on ? 'Conceito marcado como estudado' : 'Marcação de estudado removida');
-    aoMarcar?.(on);
+  btEstudo.addEventListener('click', async () => {
+    btEstudo.disabled = true;
+    try {
+      const on = await progresso.alternar(v.slug);
+      if (!btEstudo.isConnected) return;
+      btEstudo.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btEstudo.querySelector('span').textContent = on ? 'Estudado' : 'Marcar como estudado';
+      toast(on ? 'Conceito marcado como estudado' : 'Marcação de estudado removida');
+      aoMarcar?.(on);
+    } catch {
+      if (btEstudo.isConnected) toast('Não foi possível salvar o progresso. Tente novamente.');
+    } finally {
+      btEstudo.disabled = false;
+    }
   });
   const btComp = h('button', { type: 'button', class: 'botao secundario', 'aria-label': 'Compartilhar o termo ' + v.termo }, icone('compartilhar'), h('span', null, 'Compartilhar'));
   btComp.addEventListener('click', () => compartilhar(v, btComp));

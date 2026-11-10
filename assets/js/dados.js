@@ -1,6 +1,7 @@
 // Carrega os dados do site. O glossário continua em data/glossario.json
 // (o mesmo arquivo lido pelo notebook da Entrega 5).
 import { slug, norm, guardar } from './util.js';
+import { conta, salvarConceito } from './conta.js';
 
 export const D = { verbetes: [], porSlug: new Map(), trilhas: [], quiz: [], indicadores: null, temas: [] };
 
@@ -60,15 +61,27 @@ export function buscar(consulta, limite = 12) {
   return res.sort((a, b) => b[0] - a[0] || a[1].termo.localeCompare(b[1].termo, 'pt-BR')).slice(0, limite).map(x => x[1]);
 }
 
-// ---- Progresso do estudante (fica só no navegador dele)
+// ---- Progresso do estudante
 export const progresso = {
-  estudados() { return new Set(guardar.ler('estudados', [])); },
-  estudado(id) { return this.estudados().has(id); },
-  alternar(id) {
-    const s = this.estudados(); s.has(id) ? s.delete(id) : s.add(id);
-    guardar.gravar('estudados', [...s]); return s.has(id);
+  estudados() {
+    if (conta.modo === 'online') return conta.estudados;
+    if (conta.usuario) return new Set();
+    return new Set(guardar.ler('estudados', []));
   },
-  marcar(id) { const s = this.estudados(); if (!s.has(id)) { s.add(id); guardar.gravar('estudados', [...s]); } },
+  estudado(id) { return this.estudados().has(id); },
+  async alternar(id) {
+    const estudado = !this.estudado(id);
+    if (conta.modo === 'online') {
+      await salvarConceito(id, estudado);
+    } else if (conta.modo === 'visitante' || conta.modo === 'desativado') {
+      const s = this.estudados();
+      if (estudado) s.add(id); else s.delete(id);
+      guardar.gravar('estudados', [...s]);
+    } else {
+      throw new Error('Progresso indisponível');
+    }
+    return estudado;
+  },
   trilha(t) {
     const s = this.estudados();
     const itens = t.conceitos.map(slug).filter(x => achar(x));
